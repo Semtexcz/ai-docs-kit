@@ -1,0 +1,8 @@
+# Maintainer toolchain installed by docs/maintainer-setup.md.
+.venv/
+.tools/
+
+# Python test and tool caches.
+__pycache__/
+*.py[cod]
+.pytest_cache/

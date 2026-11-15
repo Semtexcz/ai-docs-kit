@@ -1,0 +1,81 @@
+# Project documentation context
+
+This file is seeded once and then owned by this repository. Replace the explicit
+unknowns with verified facts. Keep it short; link evidence instead of copying it.
+The managed baseline policy lives in [policy.md](policy.md) and is not repeated here.
+
+## Project
+
+- Name: {{ project_name }}
+- Purpose: Unknown — owner to confirm
+- Audience: Unknown — owner to confirm
+- Primary language for documentation: Unknown — owner to confirm
+- Documentation root: `{{ docs_dir }}`
+
+## Terminology
+
+| Term | Meaning in this project | Source |
+| --- | --- | --- |
+| Unknown | Owner to confirm; add project-specific terms here | Unknown |
+
+## Evidence locations
+
+Add the paths an agent should inspect before writing current-behavior claims. Leave a
+row out when the location does not exist; state the absence rather than guessing.
+
+| Evidence kind | Location | Notes |
+| --- | --- | --- |
+| Source code or implementation | Unknown — owner to confirm | Omit for non-software projects |
+| Configuration and defaults | Unknown — owner to confirm | |
+| Tests or verification records | Unknown — owner to confirm | |
+| Operational records or policies | Unknown — owner to confirm | Valid for non-software projects |
+| Decision records | Unknown — owner to confirm | |
+| Requirements or specifications | Unknown — owner to confirm | Label resulting claims as planned |
+
+Example for a software project:
+
+```text
+| Configuration and defaults | config/settings.yaml | Inspected at the revision under review |
+```
+
+Example for a non-software project:
+
+```text
+| Operational records | operations/approved-procedures.md | Approved by the process owner, 2026 revision |
+```
+
+## Existing documentation
+
+List documentation that already exists outside the seeded subtree. Link it from the
+documentation index instead of moving or copying it.
+
+| Existing entry point | Audience | Notes |
+| --- | --- | --- |
+| Unknown — owner to confirm | Unknown | |
+
+## Optional integrations
+
+Record only integrations that are actually present. ai-docs-kit does not install or
+initialize sibling toolkits.
+
+| Toolkit or reference | Status | Entry point |
+| --- | --- | --- |
+| OpenSpec requirements | Absent unless added by this project | Inspect `openspec/specs/` only if it exists |
+| Planning toolkit artifacts | Absent unless added by this project | Link the inspected index, not an assumed layout |
+| Development toolkit artifacts | Absent unless added by this project | Link inspected tests or standards, not an assumed layout |
+
+When a sibling toolkit exists, link its requirement or evidence entry point from the
+documentation index and use it as intended-behavior evidence. Do not synchronize task
+state, copy specifications, or claim compatibility with uninspected releases.
+
+## Local policy additions
+
+Add only rules that this project needs, for example a required terminology list, a
+regulated approval record, or an allowed publication channel. State whether an addition
+tightens or relaxes the managed baseline. A relaxation must be disclosed in reviews.
+
+## Known unknowns
+
+- Supported versions and platforms: Unknown — owner to confirm
+- Ownership and review responsibilities: Unknown — owner to confirm
+- Confidentiality limits for evidence: Unknown — owner to confirm

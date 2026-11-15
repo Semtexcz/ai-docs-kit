@@ -1,0 +1,60 @@
+# ai-docs-kit Copier template configuration.
+# Only `template/` renders into consumers. No tasks, migrations, or extensions.
+_subdirectory: template
+_answers_file: .copier-answers.ai-docs-kit.yml
+_min_copier_version: "9.19.1"
+_templates_suffix: .jinja
+_skip_if_exists:
+  - .ai-docs/project.md
+  - "{{ docs_dir }}/**"
+_message_after_copy: |
+  ai-docs-kit rendered {{ project_name }} documentation guidance.
+
+  Next steps:
+  1. Read .ai-docs/README.md, then fill in .ai-docs/project.md (seed once).
+  2. Review the Git diff; existing files under {{ docs_dir }} were preserved.
+  3. Provision pre-commit, Node.js 24, and Lychee 0.24.2, then run:
+     pre-commit run --config .ai-docs/pre-commit-config.yaml --all-files
+  4. Commit the installation. Updates use `copier update` with the dedicated
+     answers file; never delete .copier-answers.ai-docs-kit.yml to upgrade.
+
+  The documentation root is {{ docs_dir }} and must stay unchanged in v0.1.
+
+project_name:
+  type: str
+  default: My project
+  help: >-
+    Human-readable project name shown in the rendered documentation guidance.
+    Trimmed, 1-100 characters; Unicode letters, digits, spaces, and _ - . only;
+    at least one letter or digit.
+  validator: >-
+    {% set ns = namespace(problems=[]) %}
+    {% set value = project_name if project_name is string else '' %}
+    {% if not value %}{% set _ = ns.problems.append('project_name must not be empty') %}{% endif %}
+    {% if value != value.strip() %}{% set _ = ns.problems.append('project_name must not start or end with whitespace') %}{% endif %}
+    {% if value | length > 100 %}{% set _ = ns.problems.append('project_name must be at most 100 characters') %}{% endif %}
+    {% for character in value %}{% if not (character.isalnum() or character in ' _-.') %}{% set _ = ns.problems.append('project_name contains an unsupported character (allowed: Unicode letters, digits, spaces, _ - .)') %}{% endif %}{% endfor %}
+    {% if value and not (value | regex_search('[^\W_]')) %}{% set _ = ns.problems.append('project_name must contain at least one letter or digit') %}{% endif %}
+    {{ ns.problems | join('; ') }}
+
+docs_dir:
+  type: str
+  default: docs/ai-docs
+  help: >-
+    Documentation root relative to the repository root. Slash-separated lowercase
+    segments such as docs/ai-docs. Must not be absolute, contain dot segments,
+    backslash, whitespace, or glob characters, and must not start with a reserved
+    toolkit segment. Choose an existing subtree only when its files may be seeded
+    without moving them.
+  validator: >-
+    {% set ns = namespace(problems=[]) %}
+    {% set value = docs_dir if docs_dir is string else '' %}
+    {% set reserved = ['openspec', 'template', 'tests', 'node_modules', 'vendor', 'build', 'dist', 'site'] %}
+    {% if not value %}
+    {% set _ = ns.problems.append('docs_dir must not be empty') %}
+    {% elif not (value | regex_search('\\A[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*)*\\Z')) %}
+    {% set _ = ns.problems.append('docs_dir must be slash-separated lowercase segments like docs/ai-docs, without leading slash, dot segments, backslash, whitespace, or glob characters') %}
+    {% elif value.split('/')[0] in reserved %}
+    {% set _ = ns.problems.append('docs_dir must not start with a reserved segment: ' ~ reserved | join(', ')) %}
+    {% endif %}
+    {{ ns.problems | join('; ') }}

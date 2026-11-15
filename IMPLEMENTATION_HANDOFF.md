@@ -8,9 +8,10 @@ and established deterministic CLIs. Support software first while permitting
 non-software projects. Keep material documentation claims traceable to inspected
 evidence. Compose with independently installed templates through disjoint ownership.
 
-This repository contains **planning only** as of 2026-11-15. No template, runtime
-skill, consumer config, or automated toolkit test has been implemented or run.
-Do not mark implementation work done because its specification exists.
+The v0.1.0 implementation was delivered on 2026-11-15 and is tested on Ubuntu Linux.
+See [TASKS.md](TASKS.md) for task status and the session log with exact checks, and
+[CHANGELOG.md](CHANGELOG.md) for delivered scope. The architecture, specifications,
+and deferred-scope decisions below remain the governing contracts.
 
 ## Authoritative reading order
 

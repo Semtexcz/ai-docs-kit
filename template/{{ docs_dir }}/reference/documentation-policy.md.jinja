@@ -1,0 +1,78 @@
+# Documentation policy reference
+
+This page summarizes the rules a reader needs before editing documentation. The
+canonical policy is [.ai-docs/policy.md]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/policy.md); if the two ever
+differ, the canonical policy wins. Local project additions live in
+[.ai-docs/project.md]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/project.md).
+
+## Material claims need evidence
+
+A material claim affects what a reader does or understands: commands, flags, defaults,
+supported versions, configuration, security properties, procedures, compatibility,
+contracts, or decisions. A link that resolves proves reachability, not support.
+
+| Claim kind | Evidence to inspect | How to state it |
+| --- | --- | --- |
+| Current behavior | Implementation or configuration plus a test or observed result | State the revision and execution limits |
+| Planned behavior | Approved specification, decision record, or requirement | Label it planned; never claim it works |
+| Decision or rationale | Accepted decision record | Link the decision and status |
+| External tool behavior | Primary documentation or release source | Record URL, observed version, date |
+| Operational or non-software fact | Approved record, policy, or authoritative source | State provenance and confidentiality limits |
+| Inference | Relevant inspected sources | Label the inference and uncertainty |
+
+If evidence is missing or conflicting, omit the claim, qualify it, or mark it unresolved.
+Do not invent support, and do not resolve a conflict by silently choosing a source.
+
+## Writing and structure
+
+- One descriptive H1; brief audience and purpose.
+- Prerequisites, steps, expected outcome, and verification limits for procedures.
+- Separate current behavior from planned behavior.
+- Explicit placeholders such as `Unknown — owner to confirm`.
+- Link canonical pages instead of copying them.
+- Inline code for paths that do not exist yet; no links to missing files.
+- Diátaxis guides reader need; empty category trees are not required.
+- Non-English documentation is allowed.
+
+## Review outcomes
+
+Reviews record scope, revision, inspected sources, a claim/evidence table, deterministic
+checks, semantic findings, uncertainties, and a disposition.
+
+| Result | Meaning |
+| --- | --- |
+| `supported` | An inspected source at the stated revision supports the claim |
+| `planned` | Approved intent without implementation evidence |
+| `inference` | Reasoned from inspected sources; uncertainty stated |
+| `unsupported` | No inspected source supports it, or the source is irrelevant |
+| `conflicting` | Inspected sources disagree; both are reported |
+
+| Disposition | Meaning |
+| --- | --- |
+| `ready` | Material claims supported, required checks passed, findings resolved |
+| `changes required` | Checks pass but semantic findings remain |
+| `incomplete` | Required evidence or a required check is unavailable |
+
+Findings use `blocker` (unsupported behavior, flags, results, security or compatibility
+claims), `major` (missing prerequisites or navigation, duplication, unclear status), or
+`minor` (wording and formatting).
+
+## Checks
+
+```sh
+pre-commit run --config .ai-docs/pre-commit-config.yaml --all-files
+```
+
+The command checks all Markdown under the toolkit directory and this documentation root.
+markdownlint-cli2 runs in check mode with native defaults except disabled line length;
+Lychee checks relative files, images, and local fragments offline, so remote URLs are not
+requested and their reachability is not claimed. A green result does not establish
+factual accuracy.
+
+## Related
+
+- [Documentation index](../README.md)
+- [Update the documentation](../how-to/update-documentation.md)
+- [Review record asset]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/assets/review.md)
+- [Page asset]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/assets/document.md)
+- [Skill catalog]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/skills/README.md)

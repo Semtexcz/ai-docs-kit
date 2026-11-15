@@ -1,0 +1,66 @@
+# {{ project_name }} documentation
+
+This page routes readers and agents to the page or evidence they need. Follow the row
+that matches your topic and reader need; do not read the whole repository by default.
+The toolkit's canonical evidence policy lives outside this subtree in
+[.ai-docs/policy.md]({{ '../' * (docs_dir.count('/') + 1) }}.ai-docs/policy.md) and is not duplicated here.
+
+## Routes
+
+| Topic | Reader need/type | Audience | Path | Evidence entry point |
+| --- | --- | --- | --- | --- |
+| Update or add documentation | How-to | Contributors and agents | [how-to/update-documentation.md](how-to/update-documentation.md) | [.ai-docs/policy.md]({{ '../' * (docs_dir.count('/') + 1) }}.ai-docs/policy.md) |
+| Documentation rules, claim evidence, review outcomes | Reference | Contributors and reviewers | [reference/documentation-policy.md](reference/documentation-policy.md) | [.ai-docs/policy.md]({{ '../' * (docs_dir.count('/') + 1) }}.ai-docs/policy.md) |
+| Project purpose, audience, terminology, evidence locations | Reference | Maintainers and agents | [.ai-docs/project.md]({{ '../' * (docs_dir.count('/') + 1) }}.ai-docs/project.md) | The inspected sources listed there |
+| Documentation workflows for agents | Reference | Agents and maintainers | [.ai-docs/skills/README.md]({{ '../' * (docs_dir.count('/') + 1) }}.ai-docs/skills/README.md) | Each skill's linked policy and assets |
+| Documentation validation commands | Reference | Maintainers and CI | [.ai-docs/README.md]({{ '../' * (docs_dir.count('/') + 1) }}.ai-docs/README.md) | `.ai-docs/pre-commit-config.yaml` and tool configs |
+
+Existing project documentation that is not listed above is indexed by link once its
+owner adds a row. Moving or reorganizing existing pages requires a separate, reviewed
+change; this index does not authorize it.
+
+## Add a route
+
+Add one row per reader journey, with all five columns filled:
+
+1. **Topic**: the subject a reader searches for.
+2. **Reader need/type**: tutorial, how-to, reference, or explanation. Governance
+   records (decisions, policies, planning) keep their own type.
+3. **Audience**: who the page serves.
+4. **Path**: a relative link to the page, not to a directory listing.
+5. **Evidence entry point**: where a claim on that page can be checked, such as a
+   configuration file, test, decision record, or approved operational record.
+
+Rules that keep this index useful:
+
+- Route existing pages by link instead of copying their content.
+- Use inline code, for example `how-to/deploy.md`, for pages that do not exist yet.
+  Never add a link to a missing file.
+- Keep this index under 150 lines. When it grows, add a linked topic index and route to
+  it instead of dropping evidence.
+- Create a page only for a real reader need. Empty tutorial/explanation trees are not
+  required.
+
+## Optional evidence from other toolkits
+
+If this repository already uses another toolkit, index its inspected entry point instead
+of assuming a layout. Examples use code spans because these paths are not installed by
+ai-docs-kit:
+
+- Requirements or specs: link the inspected requirement index, for example
+  `openspec/specs/` when that tree exists, and label resulting claims as planned until
+  implementation evidence exists.
+- Planning or task records: link the inspected index, for example `TASKS.md`, and cite
+  the specific item rather than restating it.
+- Implementation and tests: link the inspected source, configuration, or test that
+  demonstrates current behavior.
+
+Missing sibling toolkits are a normal installation. Do not create their directories or
+copy their content to fill a row.
+
+## What this index is not
+
+- It is not a search index, embedding store, or generated database.
+- It is not a second policy. Evidence rules live in `.ai-docs/policy.md`.
+- It does not promise that a listed page is accurate; each page carries its own evidence
+  and review status.

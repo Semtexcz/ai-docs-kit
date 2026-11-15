@@ -1,0 +1,6 @@
+# Synthetic independent Copier template used only by ai-docs-kit tests.
+_subdirectory: template
+_answers_file: .copier-answers.foreign.yml
+foreign_name:
+  type: str
+  default: Partner template

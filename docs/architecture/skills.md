@@ -2,10 +2,10 @@
 
 ## Packaging and shared behavior
 
-These are design contracts, not implemented skills. T06–T08 implement the three MVP
-skills. F01–F03 implement the others. Each future directory contains `SKILL.md`
-with YAML `name` equal to its directory name and a meaningful `description`
-covering capability and activation trigger. Use only standard fields; no
+These are design contracts. The three MVP skills are implemented under
+`template/.ai-docs/skills/`; F01–F03 remain future work. Each skill directory contains
+`SKILL.md` with YAML `name` equal to its directory name and a meaningful `description`
+covering capability and activation trigger. Standard fields only; no
 vendor-specific slash-command metadata, model selection, delegation, or tool grants.
 No `scripts/` directory is needed. Shared assets live in `.ai-docs/assets/`.
 
@@ -33,7 +33,7 @@ Shared requirements:
 
 The catalog loads only names, triggers, and paths. Manual invocation means:
 “Read `.ai-docs/README.md` and `.ai-docs/skills/<name>/SKILL.md`, then perform
-<scoped request>.” No particular agent host's auto-discovery is promised.
+`<scoped request>`.” No particular agent host's auto-discovery is promised.
 
 ## docs-discover — MVP
 

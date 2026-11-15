@@ -1,0 +1,56 @@
+# Maintainer-only gates for this repository. This file is never rendered into
+# consumers; the consumer entry point is .ai-docs/pre-commit-config.yaml in the
+# rendered project.
+#
+# Raw Jinja under template/ is excluded from ordinary Markdown lint; rendered output is
+# validated by tests instead. Intentional negative fixtures under tests/ are excluded
+# for the same reason.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-yaml
+        exclude: ^(template/|tests/)
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.24.1
+    hooks:
+      - id: markdownlint-cli2
+        name: markdownlint-cli2 (maintainer docs)
+        language_version: system
+        args:
+          - --config
+          - .markdownlint-cli2.jsonc
+          - README.md
+          - CHARTER.md
+          - AGENTS.md
+          - PLAN.md
+          - IMPLEMENTATION_HANDOFF.md
+          - TASKS.md
+          - "docs/**/*.md"
+          - "openspec/**/*.md"
+        pass_filenames: false
+        always_run: true
+
+  - repo: https://github.com/lycheeverse/lychee
+    rev: lychee-v0.24.2
+    hooks:
+      - id: lychee-system
+        name: lychee local links (maintainer docs)
+        args:
+          - --offline
+          - --include-fragments
+          - --no-progress
+          - --hidden
+          - README.md
+          - CHARTER.md
+          - AGENTS.md
+          - PLAN.md
+          - IMPLEMENTATION_HANDOFF.md
+          - TASKS.md
+          - "docs/**/*.md"
+          - "openspec/**/*.md"
+        pass_filenames: false
+        always_run: true

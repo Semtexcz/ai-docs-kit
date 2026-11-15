@@ -1,0 +1,7 @@
+# Maintainer-only Python tooling. Consumers never install this file.
+# Exact pins are required; do not replace with ranges or moving refs.
+copier==9.19.1
+pre-commit==4.7.0
+# Development-only Agent Skill format validator (upstream: demonstration tool).
+# Pinned to an inspected commit; see docs/maintainer-setup.md for provenance.
+skills-ref @ git+https://github.com/agentskills/agentskills.git@83021e2be457a9b6679148719c1f6074f0ad975e#subdirectory=skills-ref

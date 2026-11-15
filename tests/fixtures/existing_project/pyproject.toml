@@ -1,0 +1,4 @@
+# USER-OWNED PYTHON MANIFEST SENTINEL
+[project]
+name = "existing-consumer"
+version = "1.2.3"

@@ -1,0 +1,1 @@
+foreign installation state sentinel

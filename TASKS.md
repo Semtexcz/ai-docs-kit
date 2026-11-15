@@ -18,7 +18,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T01 — Establish the maintainer toolchain
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Make selected tool versions reproducibly provisionable without consumer application dependencies.
 - **Required inputs:** [Research](docs/research/tooling.md), [validation](docs/architecture/validation.md), ADR-0008.
 - **Implementation scope:** Add `requirements-dev.txt` with exact Copier 9.19.1/pre-commit 4.7.0 pins and an inspected full-commit `skills-ref` source pin; record resolved dependency versions. Add MIT `LICENSE`, minimal `.gitignore`, and maintainer setup documentation. Resolve Python 3.12/Node 24 patch versions, Lychee 0.24.2 provisioning, and full action SHAs for checkout/setup-python/setup-node/install-action. Use existing installers; no new runtime package, downloader, or lock framework.
@@ -29,7 +29,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T02 — Create isolated Git integration fixtures
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Test template behavior without touching the user's repository history or external services.
 - **Required inputs:** T01 setup, [testing protocol](docs/architecture/testing.md).
 - **Implementation scope:** Add standard-library unittest discovery, `tests/support.py`, and small existing-project/non-software/independent-template fixture inputs. Helpers create temporary repositories/tags, set only local Git identity, invoke argument-list subprocesses with timeouts, and compare inventories/hashes. Snapshot the working template into temporary Git, excluding `.git` and local caches.
@@ -40,7 +40,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T03 — Implement the Copier skeleton and questions
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Render only the intended consumer surface with dedicated installation state.
 - **Required inputs:** [Installation contract](docs/architecture/installation.md), installation spec R01/R03, ADR-0001/0002.
 - **Implementation scope:** Add `copier.yml`, `template/`, the dynamic answers-file template, two questions/validators, subdirectory/min-version settings, skip-existing patterns, and completion guidance. No hooks, migrations, extensions, wrappers, or extra questions. This task establishes skeleton files; later tasks supply content.
@@ -51,7 +51,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T04 — Seed the reader-oriented documentation home
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Deliver a useful minimal content structure and efficient retrieval route.
 - **Required inputs:** T03 skeleton, [documentation contract](docs/architecture/documentation.md), R06/R07.
 - **Implementation scope:** Add templated `.ai-docs/README.md`, `D/README.md`, `D/how-to/update-documentation.md`, and `D/reference/documentation-policy.md`. Route to canonical policy/context/catalog using correct relative links for arbitrary valid root depth. Reference planned later files using final contracted paths, not fabricated project facts.
@@ -62,7 +62,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T05 — Author policy, context, and shared evidence assets
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Make evidence rules and review outcomes concrete without a custom metadata system.
 - **Required inputs:** [Documentation/evidence contract](docs/architecture/documentation.md), R08–R10, ADR-0004.
 - **Implementation scope:** Add managed policy, seed-once `project.md`, and document/review/ADR assets. Include claim categories, provenance/revisions, unsupported/conflicting/planned cases, check/not-run results, confidentiality and untrusted-source handling, and local-context extension rules. Use original MADR-inspired wording with attribution.
@@ -73,7 +73,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T06 — Implement docs-discover
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Package bounded discovery and gap analysis as a portable Agent Skill.
 - **Required inputs:** T05 policy, [docs-discover contract](docs/architecture/skills.md), R11–R13.
 - **Implementation scope:** Add the standard skill and initial catalog entry. Include selective retrieval, inventory/gap tables, evidence/unknown distinction, read-only defaults, non-software inputs, and examples. No scripts or orchestrator.
@@ -84,7 +84,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T07 — Implement docs-write
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Create scoped documentation edits supported by inspected evidence.
 - **Required inputs:** T05 policy/assets, [docs-write contract](docs/architecture/skills.md), R08–R13.
 - **Implementation scope:** Add the skill/catalog entry, steps for audience/role/evidence selection, canonical linking, index updates, check results, and evidence review output. Include current/planned/conflicting and unexecuted-command examples.
@@ -95,7 +95,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T08 — Implement docs-review and finalize catalog
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Review semantic support separately from deterministic tool results.
 - **Required inputs:** T05 review asset, T07 writing output contract, [docs-review contract](docs/architecture/skills.md).
 - **Implementation scope:** Add skill/catalog entry, severity/disposition rubric, claim-level source inspection, read-only default, and unsupported/conflicting/irrelevant-citation examples. Final catalog lists exactly the three implemented skills and stays ≤80 lines.
@@ -106,7 +106,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T09 — Configure Markdown validation
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Reuse markdownlint-cli2 without adding consumer package management.
 - **Required inputs:** [Validation contract](docs/architecture/validation.md), R15, toolchain record.
 - **Implementation scope:** Add `.ai-docs/markdownlint-cli2.jsonc` template with native default rules except disabled MD013; document direct CLI invocation and native override precedence. Do not add custom rules or automatic fixes.
@@ -117,7 +117,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T10 — Configure offline link and fragment validation
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Catch broken local documentation references using Lychee.
 - **Required inputs:** [Validation contract](docs/architecture/validation.md), R16, Lychee baseline.
 - **Implementation scope:** Add native `.ai-docs/lychee.toml` and document exact offline/fragment/hidden-file CLI arguments and two-root globs. No downloader, preprocessing, email checking, or skip-missing policy.
@@ -128,7 +128,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T11 — Assemble the standalone check entry point
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Provide the same deterministic checks locally and in CI without installing Git hooks.
 - **Required inputs:** T09/T10, [validation hook contract](docs/architecture/validation.md), R17/R18.
 - **Implementation scope:** Add namespaced pre-commit config with pinned upstream markdownlint-cli2 and Lychee system hooks. Use Node system runtime, explicit configs/globs, `pass_filenames: false`, `always_run: true`, and read-only check behavior.
@@ -139,7 +139,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T12 — Document safe installation and agent activation
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Make the rendered kit usable in an existing project without implicit integration edits.
 - **Required inputs:** Completed seeds/skills/checks and [installation lifecycle](docs/architecture/installation.md).
 - **Implementation scope:** Add user-facing maintainer docs and `.ai-docs/examples/AGENTS.snippet.md`; finish rendered entry-point instructions. Cover preflight, preview/copy/update commands, separate answers, seed behavior, stable root, symlink/collision limits, tool provisioning, manual skill reads, native-config precedence, and extending scope to existing docs by explicit config edits.
@@ -150,7 +150,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T13 — Supply the inert consumer CI example
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Let users explicitly adopt the same gate without taking over existing workflows.
 - **Required inputs:** T12 adoption docs, T01 selected provisioning and T11 verified command sequence, A02.
 - **Implementation scope:** Add `.ai-docs/examples/github-actions.md` with a fenced complete workflow using pinned actions/tool versions, read-only permissions, and exact standalone check command. Explain deliberate activation/copy into a uniquely named workflow and consumer ownership afterward. Do not ship executable workflow YAML in `.github/`.
@@ -161,7 +161,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T14 — Automate render and installation acceptance
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Establish real default/custom/existing/non-software installation behavior.
 - **Required inputs:** T02 harness, T12 adoption documentation, T13 completed consumer example, scenario inventory I01–I06.
 - **Implementation scope:** Add parameterized unittest cases for the entire inventory, question validation, path/link rendering, dedicated state, root-file preservation, seed preservation, absence of executable features, and non-software inputs. Use actual Copier CLI and local tagged sources.
@@ -172,7 +172,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T15 — Automate independent-template composition
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Prove coexistence through disjoint ownership and independent state.
 - **Required inputs:** T14 fixtures, ownership inventory, C01–C03.
 - **Implementation scope:** Add synthetic foreign Copier template fixture with its own answers and owned paths, both install orders, separate updates, and declined reserved-path collision tests. Include root configs/workflows/agent-directory sentinel hashes.
@@ -183,7 +183,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T16 — Automate upgrades, preservation, and conflicts
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Verify the supported versioned lifecycle including failures.
 - **Required inputs:** T15 composition setup, U01–U05, [update contract](docs/architecture/installation.md).
 - **Implementation scope:** Add local tagged A/B template tests for managed upgrades, non-conflicting local edits, overlapping conflicts, skip-existing seed edits/deletion, and dirty-state rejection. Use standard Git/conflict tools rather than a new consumer scanner.
@@ -194,7 +194,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T17 — Automate validator failures, scope, and offline behavior
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Prove deterministic gates catch meaningful defects and fail honestly.
 - **Required inputs:** T14 rendered projects, V01–V08, actual selected CLIs.
 - **Implementation scope:** Add negative/repair tests for Markdown, files, images, anchors, native override precedence, omitted binaries/config errors, full-scope incoming links, and offline HTTP handling. Count requests with a temporary standard-library HTTP test server after bootstrap; no external endpoint required.
@@ -205,7 +205,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T18 — Verify skills and record semantic walkthroughs
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Validate portable packages and assess actual guidance without a hosted AI dependency.
 - **Required inputs:** T14 outputs, [skill contracts](docs/architecture/skills.md), S01–S03 and M01–M08.
 - **Implementation scope:** Add rendered-skill format validation using pinned skills-ref, malformed-copy rejection, resource/catalog/inventory/budget checks, scenario inputs and expected-findings rubric. Record software and non-software walkthroughs for discover/write/review using a human or coding agent; no model-call CI.
@@ -216,7 +216,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T19 — Document and test optional integration boundaries
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Support reference-based integration without importing sibling responsibilities.
 - **Required inputs:** [Integration contract](docs/architecture/integrations.md), T15/T18, B01.
 - **Implementation scope:** Add consumer how-to examples for linking existing planning/dev/OpenSpec evidence through context/indexes. Include absent/present OpenSpec/sibling sentinel cases in tests. Explain intended-versus-delivered behavior. Keep Vale/Zensical as roadmap material only.
@@ -227,7 +227,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T20 — Add maintainer CI and repository quality checks
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Exercise all required deterministic and integration checks on changes.
 - **Required inputs:** T01 pins, completed T16–T19 tests, A01, [CI policy](docs/architecture/validation.md).
 - **Implementation scope:** Add actual maintainer GitHub Actions workflow and root maintainer pre-commit configuration. Provision Python/Node/Lychee, install dev tools, run full unittest suite, lint ordinary maintainer docs, and use upstream conflict-marker/forbidden-rejection checks. Exclude raw Jinja and intentional negative fixtures from ordinary Markdown lint; validate their rendered outputs through tests.
@@ -238,7 +238,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T21 — Implement the end-to-end installation acceptance test
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Prove the complete MVP consumer lifecycle in one executable scenario.
 - **Required inputs:** E01 protocol in [testing](docs/architecture/testing.md), completed installation/upgrade/validation/skills/integration/example contracts.
 - **Implementation scope:** Add `tests/test_end_to_end.py` implementing every E01 step using only temporary local repositories and real selected tools. Reuse the fixture helpers; do not create a separate product acceptance runner.
@@ -249,7 +249,7 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ### T22 — Finalize MVP user docs and completion evidence
 
-- **Status:** not started
+- **Status:** done
 - **Goal:** Leave a truthful, release-ready v0.1.0 toolkit and complete handoff record.
 - **Required inputs:** T21 E01 evidence, T20 gates, all MVP acceptance criteria, semantic walkthrough records.
 - **Implementation scope:** Replace planning-only README status with actual implemented scope, installation/update/validation examples using a real source or explicit local path, support limits, dependency rationale, extension/integration docs, changelog, and release checklist. Reconcile specs/task ledger with delivered behavior and record final verification. Do not push/tag/publish as part of this task.
@@ -317,17 +317,72 @@ required tool/check leaves the task incomplete. Use `in progress`, `blocked`, or
 
 ## Session log
 
-No implementation sessions yet. For each session append:
+### 2026-11-15 — MVP implementation (T01–T22)
 
-```text
-Date / agent / task IDs:
-Status changes:
-Changed paths:
+- Implementer: Cline coding agent (DeepSeek model, high reasoning effort).
+- Environment: Ubuntu 26.04 LTS, Linux x86_64. Python 3.12.16 and Node 24.22.3
+  provisioned with mise; Copier 9.19.1 and pre-commit 4.7.0 in `.venv`;
+  markdownlint-cli2 0.24.1 (markdownlint 0.42.1) in an isolated npm prefix; Lychee
+  0.24.2 from the release archive with checksum
+  `1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a`; skills-ref 0.1.0
+  from commit `83021e2be457a9b6679148719c1f6074f0ad975e`.
+- Status changes: T01–T22 not started → done. F01–F05 remain not started.
+- Evidence paths: `tests/`, `tests/scenarios/walkthrough-software.md`,
+  `tests/scenarios/walkthrough-non-software.md`, `docs/maintainer-setup.md`,
+  `docs/release-checklist.md`.
+
 Commands and exact results:
-Evidence or review record paths:
-Blockers / unresolved questions:
-Next ready task:
-```
+
+| Task | Evidence |
+| --- | --- |
+| T01 | `copier --version` = 9.19.1; `pre-commit --version` = 4.7.0; `node --version` = v24.22.3; `markdownlint-cli2 --version` = v0.24.1; `lychee --version` = 0.24.2; `skills-ref validate --help` exit 0; Lychee archive checksum matched |
+| T02 | `test_toolchain.py`: 5 tests OK, including two tagged snapshot revisions in a parent path with spaces and unchanged source status |
+| T03 | Render smoke into a disposable repository; answers recorded `_src_path`, `_commit: v0.1.0`, both answers; I05 rejects 21 invalid `docs_dir` values and 9 invalid names without writes; `--pretend` wrote no files |
+| T04 | Default and nested roots rendered; I03/I04 verified links, byte-preserved seeds, and recreated missing seed; entry 65 lines, index 66 lines, catalog 34 lines, project context 81 lines at final verification |
+| T05 | Policy, project context, and three assets rendered and linted; walkthrough used one current-behavior and one planned claim; context defaults remain explicit unknowns |
+| T06–T08 | `skills-ref validate` accepted all three rendered skills; S01–S03 3 tests OK; catalog lists exactly three skills; semantic walkthroughs recorded for discover/write/review |
+| T09 | Rendered markdownlint-cli2 config passes V01; MD001 violation fails and repair passes; V08 demonstrates root-config precedence without rewriting it |
+| T10 | Rendered Lychee config passes V03/V04/V07; missing file, missing image, same-file and cross-file fragments fail then pass after repair; Unicode and encoded-space targets pass |
+| T11 | `pre-commit validate-config .ai-docs/pre-commit-config.yaml` exit 0; standalone command passed in a committed fixture; incoming-link break failed and repair passed |
+| T12 | `docs/installation.md` documents preflight, preview/install/update, provisioning, activation, scope extension, composition, removal, and limits; inert snippet rendered |
+| T13 | A02 3 tests OK: workflow extracted and parsed, pins/permissions/timeout checked, inert after render, commands pass for default and custom roots |
+| T14 | `test_install.py`: 12 tests OK (I01–I06) including existing-project byte preservation, non-software custom root, Unicode name, spaces in parent path |
+| T15 | `test_composition.py`: 3 tests OK (C01–C03), both install orders, independent updates, declined collision preserved sentinel |
+| T16 | `test_upgrade.py`: 5 tests OK (U01–U05), clean upgrade, non-conflicting edit, visible overlap conflict, seed recreation, dirty rejection |
+| T17 | `test_validation.py`: 8 tests OK (V01–V08), zero loopback HTTP requests offline, missing Lychee and invalid config fail visibly |
+| T18 | `test_skills.py` 3 tests OK; `test_scenarios.py` 4 tests OK; rendered skills 127/132/154 lines; walkthrough records cover M01–M08 with reviewer, revision, inputs, outputs, results |
+| T19 | `test_integrations.py`: 2 tests OK (B01), absent siblings normal, existing OpenSpec/planner/devkit sentinels unchanged, checks pass without sibling CLIs |
+| T20 | `test_maintainer_ci.py`: 4 tests OK (A01); `pre-commit run --all-files` passed; workflow uses read-only contents, pinned action SHAs, no secrets, timeout |
+| T21 | `test_end_to_end.py` OK: E01 existing consumer + foreign template, evidence page, broken link/fragment repair, tagged v0.1.0→v0.1.1 upgrade, preserved hashes; final inventory 38 files |
+| T22 | Full suite `python -m unittest discover -s tests -v` = 50 tests OK in 139.6 s (final rerun after ledger edits: 50 tests OK in 144.6 s); `pre-commit run --all-files` passed; final disposable install rendered 19 files with `validate-config` exit 0, checks pass, clean `git status` |
+
+Changed paths (grouped):
+
+- Template and installation: `copier.yml`, `template/**`, `requirements-dev.txt`, `LICENSE`,
+  `.gitignore`.
+- Tests and fixtures: `tests/support.py`, `tests/test_*.py`, `tests/fixtures/**`,
+  `tests/scenarios/**`.
+- Maintainer tooling: `.pre-commit-config.yaml`, `.markdownlint-cli2.jsonc`,
+  `.github/workflows/ci.yml`.
+- Documentation: `README.md`, `CHANGELOG.md`, `docs/installation.md`,
+  `docs/maintainer-setup.md`, `docs/release-checklist.md`, status corrections in
+  `AGENTS.md`, `PLAN.md`, `IMPLEMENTATION_HANDOFF.md`, `docs/architecture/*.md`.
+- Ledger: `TASKS.md` statuses and this log.
+
+Limitations retained:
+
+- Only Ubuntu Linux was exercised; macOS and Windows are unverified.
+- No hosted release, push, or tag was created in this repository. All test tags live in
+  disposable temporary repositories.
+- Remote URL checking, Vale, Zensical, and F01–F05 are out of scope.
+- `docs_dir` relocation and multiple installations per repository are unsupported.
+- Declined path collisions can leave a partial result; no rollback guarantee is claimed.
+- Compatibility with specific sibling kit releases remains unverified.
+
+Blockers / unresolved questions: none blocking the MVP. Deferred work remains F01–F05.
+
+Next ready task: none in the MVP. F01 requires T22, which is now done; F01–F05 are
+deferred by the approved plan and were intentionally not started.
 
 If a test could not run, retain that fact and leave its task incomplete. A scope
 change requires an ADR/spec/task update; a session log alone cannot change architecture.

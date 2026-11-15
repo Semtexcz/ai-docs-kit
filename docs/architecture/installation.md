@@ -48,7 +48,8 @@ requires inspecting destination parents and reserved paths first.
 
 ## Rendered file inventory
 
-`D` below means the chosen `docs_dir`. These are future output paths, not planning artifacts.
+`D` below means the chosen `docs_dir`. These are rendered output paths; they are created
+in a consumer repository, not at this maintainer repository root.
 
 | Consumer path | Ownership / lifecycle |
 | --- | --- |

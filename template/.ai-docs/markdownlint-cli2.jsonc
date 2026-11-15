@@ -1,0 +1,11 @@
+{
+  // Base configuration for ai-docs-kit managed Markdown checks.
+  // Native markdownlint rule defaults apply, except line length (MD013), which is
+  // disabled so URLs, tables, and evidence rows can stay on one line.
+  // Check mode only: this file never enables fixes.
+  // markdownlint-cli2 --config merges a base configuration; a closer consumer
+  // configuration can still influence selected files. It is not an isolation layer.
+  "config": {
+    "MD013": false
+  }
+}

@@ -1,0 +1,38 @@
+# Standalone ai-docs-kit checks. Run from the repository root:
+#
+#   pre-commit run --config .ai-docs/pre-commit-config.yaml --all-files
+#
+# This file is not installed as a Git hook. Both hooks always run over all Markdown
+# in .ai-docs/ and {{ docs_dir }}/, so newly added files and incoming link targets are
+# included even when they are not staged. Check mode only; no fixes are applied.
+repos:
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.24.1
+    hooks:
+      - id: markdownlint-cli2
+        name: markdownlint-cli2 (ai-docs scope)
+        language_version: system
+        args:
+          - --config
+          - .ai-docs/markdownlint-cli2.jsonc
+          - ".ai-docs/**/*.md"
+          - "{{ docs_dir }}/**/*.md"
+        pass_filenames: false
+        always_run: true
+
+  - repo: https://github.com/lycheeverse/lychee
+    rev: lychee-v0.24.2
+    hooks:
+      - id: lychee-system
+        name: lychee local links (ai-docs scope)
+        args:
+          - --config
+          - .ai-docs/lychee.toml
+          - --offline
+          - --include-fragments
+          - --no-progress
+          - --hidden
+          - ".ai-docs/**/*.md"
+          - "{{ docs_dir }}/**/*.md"
+        pass_filenames: false
+        always_run: true

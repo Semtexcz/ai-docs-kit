@@ -2,9 +2,11 @@
 
 ## Start here
 
-This repository currently contains an approved implementation plan, not a working toolkit.
-Read [IMPLEMENTATION_HANDOFF.md](IMPLEMENTATION_HANDOFF.md), then select the first
-ready task in [TASKS.md](TASKS.md). Read only the architecture pages referenced there.
+The v0.1.0 implementation is complete and tested on Ubuntu Linux. Authoritative state
+lives in [TASKS.md](TASKS.md) (task statuses and the session log) and
+[CHANGELOG.md](CHANGELOG.md). Read [IMPLEMENTATION_HANDOFF.md](IMPLEMENTATION_HANDOFF.md)
+for scope boundaries, then inspect the delivered template, tests, and user docs rather
+than re-planning them.
 
 Authority: [CHARTER.md](CHARTER.md) establishes scope; accepted
 [ADRs](docs/adr/README.md) establish decisions; [specifications](openspec/README.md)
@@ -38,9 +40,15 @@ results, and the next ready task. Record a blocked task's prerequisite and conti
 independent ready work where possible. A skipped or unavailable test is not passing.
 Check `git status` before and after work; preserve unrelated changes.
 
-The implementation will add maintainer tool installation instructions and test
-commands in T01/T02. The required future checks are specified in
-[testing.md](docs/architecture/testing.md); do not pretend they exist today.
+The maintainer environment and exact test commands are documented in
+[maintainer setup](docs/maintainer-setup.md). The required checks are:
+
+```sh
+python -m unittest discover -s tests -v
+pre-commit run --all-files
+```
+
+Both are implemented and must pass. Do not claim a check passed without running it.
 
 ## Environment-specific reusable tools
 

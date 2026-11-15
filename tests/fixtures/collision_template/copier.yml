@@ -1,0 +1,3 @@
+# Synthetic template that writes a path reserved by ai-docs-kit.
+_subdirectory: template
+_answers_file: .copier-answers.collision.yml

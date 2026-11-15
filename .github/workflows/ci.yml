@@ -1,0 +1,51 @@
+name: maintainer checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Integration tests and documentation gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12.16"
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24.22.3"
+      - name: Install Lychee
+        uses: taiki-e/install-action@ab49d3c64680143e184118bed66a46419fc15519 # v2.90.5
+        with:
+          tool: lychee@0.24.2
+          checksum: true
+          fallback: none
+      - name: Create maintainer environment
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --upgrade pip
+          .venv/bin/pip install -r requirements-dev.txt
+      - name: Install markdownlint-cli2 for direct CLI tests
+        run: npm install --prefix .tools/npm markdownlint-cli2@0.24.1
+      - name: Put pinned tools on PATH
+        run: |
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+          echo "$PWD/.tools/npm/node_modules/.bin" >> "$GITHUB_PATH"
+          echo "$PWD/.tools/bin" >> "$GITHUB_PATH"
+      - name: Run integration tests
+        run: python -m unittest discover -s tests -v
+      - name: Run maintainer documentation gates
+        run: pre-commit run --all-files
+      - name: Verify checks did not rewrite files
+        run: git diff --exit-code

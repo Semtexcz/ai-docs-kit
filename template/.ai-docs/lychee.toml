@@ -1,0 +1,7 @@
+# Native Lychee configuration for ai-docs-kit managed link checks.
+# The standalone pre-commit hook also passes the equivalent CLI flags explicitly so
+# the intended behavior is visible in .ai-docs/pre-commit-config.yaml.
+offline = true
+include_fragments = "full"
+hidden = true
+no_progress = true

@@ -15,5 +15,6 @@ Read the smallest relevant contract before changing a component.
 | Which upstream behavior was verified? | [Tool research](../research/tooling.md) |
 | What was reviewed before handoff? | [Planning review](../planning-review.md) |
 
-Consumer paths in these documents are contracts for future generated output.
-They are not files that already exist in this planning repository.
+Consumer paths in these documents are contracts for generated output. They do not exist
+at this maintainer repository root; they appear only after the template is rendered into
+a consumer repository. The maintained implementation lives in `template/` and `tests/`.

@@ -1,0 +1,94 @@
+# Update the documentation
+
+Use this procedure to create or revise a documentation page in this repository. It
+applies to software and non-software projects. It assumes the toolkit guidance exists
+but not that any page has been written yet.
+
+## Prerequisites
+
+- A Git checkout of this repository and permission to edit documentation.
+- Read access to the evidence named in
+  [.ai-docs/project.md]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/project.md).
+- `pre-commit` installed, Node.js 24 available for markdownlint-cli2, and a Lychee
+  0.24.2 binary on `PATH`. ai-docs-kit does not install these tools.
+- The documentation index at [the documentation home](../README.md) opened for routing.
+
+## Choose the reader need
+
+Decide what the reader must accomplish before choosing a page:
+
+- Learning by doing: a tutorial.
+- Accomplishing a task: a how-to such as this page.
+- Looking up facts: a reference page.
+- Understanding concepts: an explanation.
+- Recording a decision or policy: a governance record, which keeps its own structure.
+
+Create a page only for a real need. Reuse and link an existing canonical page instead of
+duplicating it.
+
+## Procedure
+
+1. Read [.ai-docs/policy.md]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/policy.md) and the relevant rows in
+   [the documentation index](../README.md). Bound the scope to the pages you will edit.
+2. Inspect evidence before writing factual sentences. Record the revision and what the
+   evidence can and cannot establish:
+   - current behavior: implementation or configuration plus a test or observed result;
+   - planned behavior: an approved specification or decision record, labelled planned;
+   - operational facts: an approved record or policy with provenance;
+   - inference: inspected sources, labelled as inference with its uncertainty.
+3. Draft from [.ai-docs/assets/document.md]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/assets/document.md). Keep
+   one H1, state the audience and purpose, and separate current from planned behavior.
+4. Use explicit placeholders such as `Unknown — owner to confirm`. Do not invent
+   defaults, versions, flags, owners, dates, or results.
+5. Link related canonical pages. Use inline code for proposed paths that do not exist
+   yet; do not create broken links to placeholders.
+6. Add or update the routing row in [the documentation index](../README.md) with topic,
+   reader need, audience, path, and evidence entry point.
+7. Run the checks from the repository root:
+
+   ```sh
+   pre-commit run --config .ai-docs/pre-commit-config.yaml --all-files
+   ```
+
+8. Review the result with the `docs-review` workflow in
+   [.ai-docs/skills/docs-review/SKILL.md]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/skills/docs-review/SKILL.md).
+   Report checks and semantic findings separately.
+9. Commit the page and the index change together so routing and content stay consistent.
+
+## Expected outcome
+
+- The page answers the scoped reader need and links its evidence.
+- The index routes to the page with all five columns filled.
+- Markdown and local-link checks pass, or every failure is reported and fixed.
+- Material claims are labelled supported, planned, inference, or unresolved.
+
+## Check scope and limits
+
+The standalone command checks all Markdown under `.ai-docs/` and this documentation
+root, including new files. It uses `.ai-docs/markdownlint-cli2.jsonc` in check mode
+(line length disabled) and `.ai-docs/lychee.toml` offline. Relative files, images, and
+local heading fragments are checked; remote URLs are not requested, so external
+reachability is unchecked. Syntax and reachability do not establish factual support.
+
+If a closer consumer-native Markdown configuration exists, it can still influence
+selected files; the `--config` option is a base configuration, not an isolation layer.
+
+## Troubleshooting
+
+- `pre-commit` not found: install it in your tool environment; do not add AI-generated
+  substitutes for the missing check.
+- `lychee` not found: install the pinned Lychee binary. The `lychee-system` hook fails
+  visibly when the binary is missing; that failure is a real gate failure.
+- markdownlint-cli2 cannot find Node: install Node.js 24 and ensure it is on `PATH` for
+  pre-commit.
+- A link fails after a heading edit: fix the referring page or the heading; the check
+  runs over all scoped files, not only staged ones.
+- Existing project documentation is outside this root: add an index row that links it
+  instead of moving it.
+
+## Related
+
+- [Documentation index](../README.md)
+- [Documentation policy reference](../reference/documentation-policy.md)
+- [Project context]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/project.md)
+- [Toolkit entry point]({{ '../' * (docs_dir.count('/') + 2) }}.ai-docs/README.md)

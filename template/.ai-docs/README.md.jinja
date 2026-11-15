@@ -1,0 +1,65 @@
+# ai-docs-kit guidance for {{ project_name }}
+
+This directory is the managed entry point for documentation work in this repository.
+Read it first, then load only the route or skill needed for the scoped task.
+
+## Read in this order
+
+1. [Policy](policy.md): evidence rules for material claims and review outcomes.
+2. [Project context](project.md): audience, terminology, evidence locations, local rules.
+3. [Documentation home](../{{ docs_dir }}/README.md): routing index for readers.
+4. [Skill catalog](skills/README.md): names, triggers, and paths. Load one skill body
+   only when its trigger matches the task.
+
+## Managed paths and ownership
+
+| Path | Ownership |
+| --- | --- |
+| `.copier-answers.ai-docs-kit.yml` | Copier installation state; do not edit manually |
+| `.ai-docs/README.md`, `policy.md`, `skills/`, `assets/`, `examples/`, tool configs | Managed; local edits merge through Copier |
+| `.ai-docs/project.md` | Seeded once; you own it afterwards |
+| `{{ docs_dir }}/` seed pages | Seeded once; you own them afterwards |
+
+Copier may report conflicts when a managed file changed both locally and upstream.
+Resolve them and rerun checks; a zero exit code alone is not proof of a clean update.
+
+## Deterministic checks
+
+Prerequisites, installed by you or your CI environment: `pre-commit`, Node.js 24 with
+`markdownlint-cli2` 0.24.1 available to pre-commit, and a Lychee 0.24.2 binary on
+`PATH`. ai-docs-kit does not install these tools.
+
+```sh
+pre-commit run --config .ai-docs/pre-commit-config.yaml --all-files
+```
+
+The command checks all Markdown under `.ai-docs/` and `{{ docs_dir }}/` on every run,
+including new files:
+
+- markdownlint-cli2 in check mode with `.ai-docs/markdownlint-cli2.jsonc`; native
+  defaults apply except `MD013` (line length), which is disabled.
+- Lychee in offline mode with `.ai-docs/lychee.toml`: relative files, images, and
+  local heading fragments are checked; remote URLs are not requested.
+
+It does not verify factual support, Diátaxis fit, clarity, or completeness. Those
+require the review workflow in `.ai-docs/skills/docs-review/SKILL.md`.
+
+Existing root Markdown or link configuration is not modified. `--config` selects a
+base configuration; a closer consumer-native configuration can still influence files.
+See [policy.md](policy.md) and your local additions in [project.md](project.md).
+
+## Agent activation
+
+The portable baseline is manual: read this file, then
+[skills/README.md](skills/README.md), then one selected `SKILL.md`. Host-specific
+automatic skill discovery is not assumed. An optional, inert routing snippet for an
+existing agent instruction file is in
+[examples/AGENTS.snippet.md](examples/AGENTS.snippet.md); it is never applied
+automatically.
+
+## Documentation root
+
+The install-time answer `docs_dir` is `{{ docs_dir }}`. It names a subtree and is
+unchanged by v0.1 updates. Moving it later is not supported; create a new installation
+instead. Existing documents keep their paths until an explicitly reviewed
+reorganization.

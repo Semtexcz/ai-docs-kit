@@ -1,0 +1,8 @@
+# USER-OWNED WORKFLOW SENTINEL
+name: existing ci
+on: [push]
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo existing

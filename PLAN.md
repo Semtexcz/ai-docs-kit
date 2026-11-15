@@ -3,7 +3,9 @@
 ## Release target
 
 Deliver `v0.1.0`: an installable, tested Copier template with useful documentation
-guidance and deterministic Markdown/link checks. This plan does not implement it.
+guidance and deterministic Markdown/link checks. This target was implemented and tested
+on Ubuntu Linux; see [CHANGELOG.md](CHANGELOG.md), [TASKS.md](TASKS.md), and the
+[release checklist](docs/release-checklist.md).
 
 ## MVP deliverables
 
