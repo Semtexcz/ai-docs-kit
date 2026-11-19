@@ -20,6 +20,17 @@ ANSWERS_FILE = ".copier-answers.ai-docs-kit.yml"
 DEFAULT_DOCS_DIR = "docs/ai-docs"
 DEFAULT_REF = "v0.1.0"
 
+# Pinned CI provisioning of the validation binary. These values are shared by the
+# maintainer workflow, the inert consumer example, and their tests.
+LYCHEE_VERSION = "0.24.2"
+LYCHEE_ARCHIVE = "lychee-x86_64-unknown-linux-gnu.tar.gz"
+LYCHEE_SHA256 = (
+    "1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a"
+)
+
+WORKFLOW_EXAMPLE_START = "<!-- ai-docs-kit:workflow-example:start -->"
+WORKFLOW_EXAMPLE_END = "<!-- ai-docs-kit:workflow-example:end -->"
+
 # Never copy these into a template snapshot or a consumer fixture.
 SNAPSHOT_IGNORE = shutil.ignore_patterns(
     ".git",
@@ -355,6 +366,32 @@ def read_fenced_block(path, start_marker: str, end_marker: str) -> str:
     start = text.index(start_marker) + len(start_marker)
     end = text.index(end_marker, start)
     return text[start:end]
+
+
+def find_step(workflow: dict, name: str) -> dict:
+    """Return the single workflow step with the given name."""
+    steps = [
+        step
+        for job in workflow["jobs"].values()
+        for step in job["steps"]
+        if step.get("name") == name
+    ]
+    if len(steps) != 1:
+        raise AssertionError(f"expected exactly one step named {name!r}, got {steps!r}")
+    return steps[0]
+
+
+def workflow_from_example(path) -> dict:
+    """Parse the YAML workflow embedded in the inert consumer example."""
+    import yaml
+
+    block = read_fenced_block(path, WORKFLOW_EXAMPLE_START, WORKFLOW_EXAMPLE_END).strip()
+    if not block.startswith("```yaml"):
+        raise AssertionError("the workflow example must be a fenced yaml block")
+    body = block[len("```yaml") :].strip()
+    if body.endswith("```"):
+        body = body[: -len("```")].rstrip()
+    return yaml.safe_load(body)
 
 
 def write(path, text: str) -> Path:

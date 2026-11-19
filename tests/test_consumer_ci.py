@@ -12,27 +12,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import support
 
-START = "<!-- ai-docs-kit:workflow-example:start -->"
-END = "<!-- ai-docs-kit:workflow-example:end -->"
 PINNED_ACTIONS = {
     "actions/checkout": "3d3c42e5aac5ba805825da76410c181273ba90b1",
     "actions/setup-python": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
     "actions/setup-node": "949feb2413d6458794dcd2491c4babbbce0c15c1",
-    "taiki-e/install-action": "ab49d3c64680143e184118bed66a46419fc15519",
 }
 PIN_PATTERN = re.compile(r"^[\w.-]+/[\w.-]+@[0-9a-f]{40}$")
-
-
-def workflow_from_example(path: Path) -> dict:
-    import yaml
-
-    block = support.read_fenced_block(path, START, END).strip()
-    if not block.startswith("```yaml"):
-        raise AssertionError("the workflow example must be a fenced yaml block")
-    body = block[len("```yaml") :].strip()
-    if body.endswith("```"):
-        body = body[: -len("```")].rstrip()
-    return yaml.safe_load(body)
 
 
 class ConsumerCiExampleTest(unittest.TestCase):
@@ -62,9 +47,11 @@ class ConsumerCiExampleTest(unittest.TestCase):
         )
 
     def test_workflow_contract(self):
+        import yaml
+
         project = self.render("contract")
         example = project / ".ai-docs/examples/github-actions.md"
-        workflow = workflow_from_example(example)
+        workflow = support.workflow_from_example(example)
 
         self.assertEqual(workflow["permissions"], {"contents": "read"})
 
@@ -75,6 +62,7 @@ class ConsumerCiExampleTest(unittest.TestCase):
         self.assertNotIn("schedule", triggers)
         self.assertNotIn("secrets", str(workflow))
         self.assertNotIn("pull_request_target", str(workflow))
+        self.assertNotIn("taiki-e", str(workflow))
 
         job = next(iter(workflow["jobs"].values()))
         self.assertIn("timeout-minutes", job)
@@ -91,13 +79,34 @@ class ConsumerCiExampleTest(unittest.TestCase):
         for action, sha in PINNED_ACTIONS.items():
             self.assertEqual(used.get(action), sha, action)
 
-        install = next(
-            step for step in steps
-            if step.get("uses", "").startswith("taiki-e/install-action@")
+        install = support.find_step(workflow, "Install Lychee")
+        self.assertNotIn("uses", install)
+        self.assertEqual(install["env"]["LYCHEE_VERSION"], support.LYCHEE_VERSION)
+        self.assertEqual(install["env"]["LYCHEE_ARCHIVE"], support.LYCHEE_ARCHIVE)
+        self.assertEqual(install["env"]["LYCHEE_SHA256"], support.LYCHEE_SHA256)
+
+        script = install["run"]
+        self.assertIn("set -euo pipefail", script)
+        self.assertIn("--proto '=https'", script)
+        self.assertIn("--tlsv1.2", script)
+        self.assertIn("sha256sum --check --strict", script)
+        self.assertIn("install -D -m 0755", script)
+        self.assertIn('echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"', script)
+        self.assertIn('"$RUNNER_TEMP/bin/lychee" --version', script)
+        self.assertIsNone(
+            re.search(r"\|\s*(?:sh|bash)\b", script),
+            "the step must not pipe a download into a shell",
         )
-        self.assertEqual(install["with"]["tool"], "lychee@0.24.2")
-        self.assertIs(install["with"]["checksum"], True)
-        self.assertEqual(install["with"]["fallback"], "none")
+        for forbidden in ("curl -k", "--insecure", "sudo"):
+            self.assertNotIn(forbidden, script)
+
+        # The maintainer workflow and the consumer example must install the same
+        # pinned archive with the same checksum; only the destination differs.
+        maintainer_workflow = yaml.safe_load(
+            (support.REPO_ROOT / ".github/workflows/ci.yml").read_text()
+        )
+        maintainer_install = support.find_step(maintainer_workflow, "Install Lychee")
+        self.assertEqual(maintainer_install["env"], install["env"])
 
         python_step = next(
             step for step in steps
@@ -125,7 +134,7 @@ class ConsumerCiExampleTest(unittest.TestCase):
         for name, docs_dir in (("default", None), ("custom", "handbook/v2")):
             with self.subTest(render=name):
                 project = self.render(f"run-{name}", docs_dir=docs_dir)
-                workflow = workflow_from_example(
+                workflow = support.workflow_from_example(
                     project / ".ai-docs/examples/github-actions.md"
                 )
                 commands = "\n".join(

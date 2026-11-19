@@ -80,24 +80,42 @@ python -m unittest discover -s tests -v
 pre-commit run --all-files
 ```
 
-The first command renders and checks real temporary consumer repositories. The second
-uses the root maintainer configuration and never treats raw Jinja under `template/` or
-intentional negative fixtures as ordinary Markdown.
+The first command renders and checks real temporary consumer repositories. It also
+downloads the pinned Lychee release archive (about 10 MB) for the A03 installation
+check, so a cold or offline run fails visibly instead of skipping that verification.
+The second uses the root maintainer configuration and never treats raw Jinja under
+`template/` or intentional negative fixtures as ordinary Markdown.
 
 ## Provisioned GitHub Actions references
 
-Maintainer CI and the inert consumer example pin full commit SHAs:
+Maintainer CI and the inert consumer example pin full commit SHAs for their actions:
 
 | Action | Release tag | Commit SHA |
 | --- | --- | --- |
 | `actions/checkout` | `v7.0.1` | `3d3c42e5aac5ba805825da76410c181273ba90b1` |
 | `actions/setup-python` | `v7.1.0` | `6d4fd22b20465ccc0f7354476588e8df7c9ca0e0` |
 | `actions/setup-node` | `v7.1.0` | `949feb2413d6458794dcd2491c4babbbce0c15c1` |
-| `taiki-e/install-action` | `v2.90.5` | `ab49d3c64680143e184118bed66a46419fc15519` |
 
-The Lychee step uses `taiki-e/install-action` with `tool: lychee@0.24.2`,
-`checksum: true`, and `fallback: none`. The action inputs were inspected in its
-`action.yml` at that commit.
+Lychee is not provided by a pinned tool-installer action: `taiki-e/install-action`
+does not list `lychee` among its supported tools, and `fallback: none` aborts the job
+instead of substituting an unverified installation. Both workflows therefore run a
+short explicit step that downloads `lychee-x86_64-unknown-linux-gnu.tar.gz` from the
+`lychee-v0.24.2` GitHub release, verifies the published SHA-256, extracts the archive
+inside the runner temp directory, and installs only the `lychee` binary:
+
+| Setting | Value |
+| --- | --- |
+| Version | `0.24.2` |
+| Archive | `lychee-x86_64-unknown-linux-gnu.tar.gz` |
+| SHA-256 | `1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a` |
+
+The checksum was re-verified on 2026-11-19 by downloading the release asset and
+running `sha256sum`; it matches the value recorded during the 2026-11-15
+provisioning. `tests/test_lychee_install.py` executes both workflow step texts against
+the real release asset and rejects a tampered checksum, so a wrong archive, checksum,
+or version fails locally instead of only being noticed in a hosted run. The step is
+intentionally not a reusable downloader: it provisions one pinned tool for these two
+workflows.
 
 ## Limitations
 

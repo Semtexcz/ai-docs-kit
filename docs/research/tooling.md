@@ -24,7 +24,7 @@ establish runtime compatibility. No dependencies were installed during planning.
 | OpenSpec installation | npm installation requires Node >=22.12.0; standalone installation is also documented. [Installation](https://openspec.dev/docs/installation) | Optional developer integration only; never install or initialize as a Copier side effect |
 | pre-commit | Manages hooks for multiple tool languages and supports explicit config selection. [Documentation](https://pre-commit.com/) Version 4.7.0 requires Python >=3.11. [Tagged metadata](https://github.com/pre-commit/pre-commit/blob/v4.7.0/setup.cfg) | Reuse as standalone check entry point; Python 3.12 family; hook installation optional |
 | GitHub Actions | Recommends least privilege and immutable action pins. [Secure use](https://docs.github.com/en/actions/reference/security/secure-use) | Read-only maintainer CI; inert consumer example; no secrets or deployment |
-| install-action | Supports exact tool versions, checksum checking, and disabling fallbacks. [README](https://github.com/taiki-e/install-action) | Reuse for CI Lychee provisioning; full action SHA, checksums enabled, fallback none |
+| install-action | Supports exact tool versions, checksum checking, and disabling fallbacks. [README](https://github.com/taiki-e/install-action) Lychee is absent from its supported-tool list ([TOOLS.md](https://github.com/taiki-e/install-action/blob/main/TOOLS.md)). | Not used for Lychee: `fallback: none` aborts the job, as observed in the first hosted run. CI installs the pinned release archive with SHA-256 verification instead (update 2026-11-19; see [maintainer setup](../maintainer-setup.md)) |
 | skills-ref | Official reference validator exists but upstream calls it demonstration-only. [README](https://github.com/agentskills/agentskills/blob/main/skills-ref/README.md) | Pin an inspected commit for maintainer format checks only; no consumer dependency |
 
 ## Selected initial baseline
@@ -47,9 +47,9 @@ is allowed in release instructions or checked-in workflows.
 
 ## Reuse assessment
 
-No relevant reusable local CLI was found in the environment's
-`/mnt/Data/automation/agent-tools/README.md`; its catalog lists only a private-mail
-tool. The catalog was read, and no mailbox data was accessed.
+No relevant reusable local CLI was found in the environment's agent-tools
+catalog, which listed only a private-mail tool. The catalog was read, and no
+mailbox data was accessed.
 
 Copier replaces custom installation/upgrades; pre-commit replaces a custom runner;
 markdownlint-cli2 and Lychee replace custom deterministic validators; Markdown

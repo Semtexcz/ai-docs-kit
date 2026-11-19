@@ -89,6 +89,27 @@ class ScenarioRecordTest(unittest.TestCase):
             self.assertNotIn("deterministic model", text)
             self.assertNotIn("identical output", text)
 
+    def test_recorded_walkthroughs_are_not_presented_as_independent(self):
+        for name in ("walkthrough-software.md", "walkthrough-non-software.md"):
+            text = (SCENARIOS / name).read_text()
+            self.assertIn("implementation-agent record, not independent review", text)
+
+    def test_independent_review_packet_provides_reproducible_inputs(self):
+        packet = (SCENARIOS / "independent-review-packet.md").read_text()
+        for scenario in RUBRIC_IDS:
+            self.assertIn(scenario, packet)
+        for field in (
+            "PENDING INDEPENDENT REVIEW",
+            "## Setup",
+            "## Bounded requests",
+            "## Expected outcomes",
+            "## Required record",
+        ):
+            self.assertIn(field, packet)
+        self.assertIn("snapshot_template", packet)
+        self.assertIn("do not copy", packet.lower())
+        self.assertIn("Independence: independent of the implementation agent", packet)
+
 
 if __name__ == "__main__":
     unittest.main()

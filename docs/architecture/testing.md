@@ -20,6 +20,9 @@ is separately documented. Provisioning failures fail the required CI job; a
 mandatory integration test must not skip itself when a tool is missing. Capture
 commands, tool versions, exit codes, and useful failure output. Network access is
 only needed to provision third-party tools, not consumer application dependencies.
+CI provisioning steps for third-party binaries are executed by tests in disposable
+directories (A03); parsing a workflow file is not evidence that a hosted runner can
+install the tool.
 
 ## Automated scenario inventory
 
@@ -53,6 +56,7 @@ only needed to provision third-party tools, not consumer application dependencie
 | B01 | No sibling toolkit or OpenSpec runtime is installed/required; existing OpenSpec and sibling sentinels remain unchanged | T19 |
 | A01 | Maintainer workflow performs actual unittest integration checks and doc validation with pinned tools | T20 |
 | A02 | Consumer workflow stays inert after rendering; extracted example runs same command on fixture when activated in test | T13 |
+| A03 | Lychee install steps in the maintainer workflow and consumer example execute against the pinned release archive, verify SHA-256, reject a tampered archive, and report 0.24.2 | T20 |
 | E01 | Full existing-project installation→evidence-backed docs→validation failure/repair→upgrade acceptance below | T21 |
 
 I05 validates names using native Copier behavior, before writes where supported;

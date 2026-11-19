@@ -81,9 +81,18 @@ scope. Such edits are consumer-owned and not updated by Copier.
 An inert fenced GitHub Actions example lives under `.ai-docs/examples/`. It uses
 read-only contents permission, pull requests and pushes, no AI secrets, and the
 same standalone command. It never uses `pull_request_target`. Third-party actions
-are pinned to reviewed full commit SHAs. Provision Lychee using the established
-`taiki-e/install-action`, exact tool version, checksums on, and `fallback: none`;
-do not implement a binary downloader. CI also provisions Python and Node.
+are pinned to reviewed full commit SHAs. Provision the Lychee binary from the
+pinned upstream release archive (`lychee-x86_64-unknown-linux-gnu.tar.gz` for
+0.24.2), verify its published SHA-256 before extraction, and install only the
+binary. Lychee is not available from the generic tool-installer action used for
+other tools, so each workflow contains one short explicit step for this archive.
+Do not implement a reusable downloader, a package manager, an unchecked fallback,
+or a pipe-to-shell install. CI also provisions Python and Node.
+
+Tests parse both workflow files and execute the install step text against the real
+release asset, including a tampered-checksum rejection (A03). A hosted workflow is
+still only proven by a hosted run; YAML parsing and local step execution must not
+be reported as a green GitHub Actions result.
 
 Maintainer CI runs unittest integration tests and checks ordinary maintainer docs.
 Raw Jinja source must not be treated as rendered Markdown: test rendered outputs;

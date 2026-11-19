@@ -1,6 +1,7 @@
 # Semantic walkthrough record: non-software fixture
 
 - Reviewer: Cline coding agent (DeepSeek model, high reasoning effort)
+- Independence: implementation-agent record, not independent review
 - Date: 2026-11-15
 - Fixture: `tests/scenarios/non-software/`, copied into a disposable Git repository and
   rendered with the working-tree template snapshot tagged `v0.1.0`

@@ -84,9 +84,10 @@ resolved dependencies, full action SHAs, and an inspected skills-ref commit.
 These source-verified versions have not been combined/executed during planning.
 
 Use upstream `lychee-system`, not the extra auto-install chain. Provision the
-binary explicitly; CI uses the established install-action with an exact version,
-checksums enabled, fallback none, and full action SHA. Skills-ref is a
-development-only format check; upstream labels it demonstration-only.
+binary explicitly; CI installs the pinned `lychee-v0.24.2` release archive and
+verifies its published SHA-256 before extracting the binary, because the generic
+tool-installer action has no Lychee entry. Skills-ref is a development-only format
+check; upstream labels it demonstration-only.
 
 Inspect available tools before downloading. Do not substitute a new framework
 because one command is unavailable. Record the incompatibility and propose a
@@ -113,8 +114,8 @@ output; intentional invalid fixtures must not poison ordinary maintainer checks.
 
 ## Quality gates
 
-Use the complete [test strategy](docs/architecture/testing.md): 29 automated
-scenario groups I01–I06, C01–C03, U01–U05, V01–V08, S01–S03, B01, A01–A02,
+Use the complete [test strategy](docs/architecture/testing.md): 30 automated
+scenario groups I01–I06, C01–C03, U01–U05, V01–V08, S01–S03, B01, A01–A03,
 and E01; plus eight semantic walkthrough scenarios M01–M08.
 
 Required scenarios include existing and non-software projects, both independent

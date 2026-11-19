@@ -11,9 +11,9 @@ duplicated here.
 
 The workflow uses read-only `contents` permission, no repository secrets, no AI service,
 no deployment, and no `pull_request_target`. Third-party actions are pinned to reviewed
-full commit SHAs. The Lychee step uses `taiki-e/install-action` with an exact version,
-checksum verification enabled, and fallbacks disabled; ai-docs-kit does not implement a
-binary downloader.
+full commit SHAs. The Lychee step installs the pinned upstream release archive and
+verifies its published SHA-256 checksum before extraction; ai-docs-kit does not
+implement a reusable binary downloader.
 
 <!-- ai-docs-kit:workflow-example:start -->
 ```yaml
@@ -45,11 +45,25 @@ jobs:
         with:
           node-version: "24"
       - name: Install Lychee
-        uses: taiki-e/install-action@ab49d3c64680143e184118bed66a46419fc15519 # v2.90.5
-        with:
-          tool: lychee@0.24.2
-          checksum: true
-          fallback: none
+        # The pinned release archive is installed directly because Lychee is not
+        # available from a supported tool installer action. The checksum is
+        # verified before extraction.
+        env:
+          LYCHEE_VERSION: "0.24.2"
+          LYCHEE_ARCHIVE: lychee-x86_64-unknown-linux-gnu.tar.gz
+          LYCHEE_SHA256: "1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a"
+        run: |
+          set -euo pipefail
+          curl --proto '=https' --tlsv1.2 --fail --silent --show-error \
+            --location --retry 3 --retry-delay 2 \
+            --output "$RUNNER_TEMP/$LYCHEE_ARCHIVE" \
+            "https://github.com/lycheeverse/lychee/releases/download/lychee-v${LYCHEE_VERSION}/${LYCHEE_ARCHIVE}"
+          echo "$LYCHEE_SHA256  $RUNNER_TEMP/$LYCHEE_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$LYCHEE_ARCHIVE" --directory "$RUNNER_TEMP"
+          install -D -m 0755 \
+            "$RUNNER_TEMP/lychee-x86_64-unknown-linux-gnu/lychee" "$RUNNER_TEMP/bin/lychee"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/bin/lychee" --version
       - name: Install pre-commit
         run: python -m pip install pre-commit==4.7.0
       - name: Run ai-docs-kit checks

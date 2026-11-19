@@ -50,15 +50,14 @@ pre-commit run --all-files
 
 Both are implemented and must pass. Do not claim a check passed without running it.
 
-## Environment-specific reusable tools
+## Private data and external actions
 
-Opakovaně použitelné CLI skripty jsou v `/mnt/Data/automation/agent-tools/`.
-Před vytvořením podobného skriptu zkontroluj katalog a README konkrétního nástroje.
-Dodržuj jeho bezpečnostní omezení a nepředpokládej, že tento odkaz uděluje oprávnění
-k souborům nebo síti.
+Environment-specific tool paths, personal automation catalogs, credentials, and mailbox
+access instructions belong outside this repository (for example in the individual
+developer's own notes). Do not add one developer's filesystem paths or private tooling
+to shared project instructions.
 
-Nástroj `mail/` čte soukromou poštu. Než spustíš příkaz, jehož výstup by modelu
-ukázal jakákoli data ze schránky (včetně data, odesílatele a předmětu), vyžádej si
-od uživatele výslovný souhlas s konkrétním účelem a rozsahem. Bez souhlasu nečti
-skutečnou schránku. Přihlašovací údaje nevyžaduj v chatu a nevkládej je do příkazů,
-zdrojového kódu ani logů.
+Agents must not access private data or invoke external actions without explicit
+authorization for the specific purpose and scope. Never place credentials in chat,
+commands, source code, or logs. A filesystem path or tool catalog does not by itself
+grant permission to read files, contact the network, or run an external action.

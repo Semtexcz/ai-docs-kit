@@ -26,11 +26,24 @@ jobs:
         with:
           node-version: "24.22.3"
       - name: Install Lychee
-        uses: taiki-e/install-action@ab49d3c64680143e184118bed66a46419fc15519 # v2.90.5
-        with:
-          tool: lychee@0.24.2
-          checksum: true
-          fallback: none
+        # Lychee is not in taiki-e/install-action's supported-tool list, so the
+        # pinned release archive is installed directly. The SHA-256 comes from the
+        # upstream release asset and is verified before extraction.
+        env:
+          LYCHEE_VERSION: "0.24.2"
+          LYCHEE_ARCHIVE: lychee-x86_64-unknown-linux-gnu.tar.gz
+          LYCHEE_SHA256: "1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a"
+        run: |
+          set -euo pipefail
+          curl --proto '=https' --tlsv1.2 --fail --silent --show-error \
+            --location --retry 3 --retry-delay 2 \
+            --output "$RUNNER_TEMP/$LYCHEE_ARCHIVE" \
+            "https://github.com/lycheeverse/lychee/releases/download/lychee-v${LYCHEE_VERSION}/${LYCHEE_ARCHIVE}"
+          echo "$LYCHEE_SHA256  $RUNNER_TEMP/$LYCHEE_ARCHIVE" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/$LYCHEE_ARCHIVE" --directory "$RUNNER_TEMP"
+          install -D -m 0755 \
+            "$RUNNER_TEMP/lychee-x86_64-unknown-linux-gnu/lychee" .tools/bin/lychee
+          .tools/bin/lychee --version
       - name: Create maintainer environment
         run: |
           python -m venv .venv

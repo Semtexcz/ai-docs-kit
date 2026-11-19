@@ -3,6 +3,36 @@
 All notable changes to ai-docs-kit are recorded here. The project follows a
 tag-per-release Copier workflow; consumers select an explicit tag.
 
+## Unreleased — corrective pass (2026-11-19)
+
+### Fixed
+
+- GitHub Actions failed before any check ran because `taiki-e/install-action` does not
+  support Lychee. The maintainer workflow and the inert consumer example now install the
+  pinned `lychee-v0.24.2` `x86_64-unknown-linux-gnu` release archive and verify its
+  published SHA-256 before extracting only the binary. Version 0.24.2, the archive name,
+  and the checksum stay pinned; no fallback or pipe-to-shell installation is used.
+- The consumer example continued to propagate the broken installer and is corrected with
+  the same verified mechanism.
+
+### Added
+
+- `tests/test_lychee_install.py` executes both workflow install steps in disposable
+  directories, checks the reported version, and rejects a tampered archive (A03).
+- `tests/scenarios/independent-review-packet.md` provides reproducible inputs and
+  expected outcomes for independent semantic review. Status remains
+  `PENDING INDEPENDENT REVIEW`; the 2026-11-15 walkthroughs are implementation-agent
+  records, not independent verification.
+
+### Documentation
+
+- `TASKS.md` no longer claims that all tasks are unstarted and records this corrective
+  pass separately from the historical 2026-11-15 evidence.
+- `AGENTS.md` replaces one developer's local tool paths with a portable rule about
+  private data and external actions.
+- Toolchain, validation, testing, release-checklist, README, and handoff documents
+  describe the corrected installation method and the remaining verification limits.
+
 ## v0.1.0 — 2026-11-15
 
 First implementation. Tested on Ubuntu Linux 26.04 with Copier 9.19.1, pre-commit

@@ -52,19 +52,33 @@ class MaintainerCiTest(unittest.TestCase):
         self.assertEqual(
             used["actions/setup-node"], "949feb2413d6458794dcd2491c4babbbce0c15c1"
         )
-        self.assertEqual(
-            used["taiki-e/install-action"],
-            "ab49d3c64680143e184118bed66a46419fc15519",
-        )
+        # Lychee is not provided by the previously attempted generic installer.
+        # It must be installed from the pinned, checksum-verified release archive.
+        self.assertNotIn("taiki-e", str(self.workflow))
+        lychee = support.find_step(self.workflow, "Install Lychee")
+        self.assertNotIn("uses", lychee)
+        self.assertEqual(lychee["env"]["LYCHEE_VERSION"], support.LYCHEE_VERSION)
+        self.assertEqual(lychee["env"]["LYCHEE_ARCHIVE"], support.LYCHEE_ARCHIVE)
+        self.assertEqual(lychee["env"]["LYCHEE_SHA256"], support.LYCHEE_SHA256)
 
-        lychee = next(
-            step
-            for step in self.steps
-            if step.get("uses", "").startswith("taiki-e/install-action@")
+        script = lychee["run"]
+        self.assertIn("set -euo pipefail", script)
+        self.assertIn("--proto '=https'", script)
+        self.assertIn("--tlsv1.2", script)
+        self.assertIn(
+            "https://github.com/lycheeverse/lychee/releases/download/"
+            "lychee-v${LYCHEE_VERSION}/${LYCHEE_ARCHIVE}",
+            script,
         )
-        self.assertEqual(lychee["with"]["tool"], "lychee@0.24.2")
-        self.assertIs(lychee["with"]["checksum"], True)
-        self.assertEqual(lychee["with"]["fallback"], "none")
+        self.assertIn("sha256sum --check --strict", script)
+        self.assertIn("install -D -m 0755", script)
+        self.assertIn(".tools/bin/lychee --version", script)
+        self.assertIsNone(
+            re.search(r"\|\s*(?:sh|bash)\b", script),
+            "the step must not pipe a download into a shell",
+        )
+        for forbidden in ("curl -k", "--insecure", "sudo"):
+            self.assertNotIn(forbidden, script)
 
     def test_workflow_installs_pinned_versions_and_runs_required_commands(self):
         steps_by_name = {step.get("name"): step for step in self.steps}

@@ -1,9 +1,11 @@
 # Implementation backlog
 
-All tasks are **not started**. This is the sole progress ledger. Architectural
-planning is complete; no implementation task is marked done by document creation.
+All 22 MVP tasks (T01–T22) are **done** with check evidence recorded in the session
+log below. Deferred tasks F01–F05 remain **not started** by the approved plan. This is
+the sole progress ledger; an implementation task is never marked done by document
+creation alone.
 
-Execute the first ready task in numeric order. Dependencies are exact task IDs;
+Execute ready tasks in numeric order. Dependencies are exact task IDs;
 `none` means ready initially. Each task includes only its bounded implementation
 scope. References to scenario IDs mean the full assertions in
 [testing.md](docs/architecture/testing.md), not file-presence-only substitutes.
@@ -383,6 +385,82 @@ Blockers / unresolved questions: none blocking the MVP. Deferred work remains F0
 
 Next ready task: none in the MVP. F01 requires T22, which is now done; F01–F05 are
 deferred by the approved plan and were intentionally not started.
+
+### 2026-11-19 — Corrective pass: CI Lychee installation and verification evidence
+
+- Implementer: DeepSeek V4.1 Flash (high reasoning effort), OpenCode harness.
+- Environment: Ubuntu Linux; Python 3.12.16, Node v24.22.3 (mise), Copier 9.19.1,
+  pre-commit 4.7.0, markdownlint-cli2 0.24.1 (markdownlint 0.42.1), Lychee 0.24.2,
+  Git 2.53.0. The shell default Node was v22.20.0, so every check below ran with the
+  pinned Node 24.22.3 directory first on `PATH`.
+- Trigger: hosted run
+  [43733626860](https://github.com/Semtexcz/ai-docs-kit/actions/runs/43733626860)
+  failed at `Install Lychee` and skipped environment setup, markdownlint-cli2
+  installation, integration tests, documentation gates, and the cleanliness check.
+
+Root cause: the pinned `taiki-e/install-action` commit has no `lychee` entry in its
+supported-tool list (checked at commit `ab49d3c64680143e184118bed66a46419fc15519` and
+on `main` on 2026-11-19). With `fallback: none`, the action aborted with
+`does not support lychee@0.24.2`. This was not a missing Lychee release: the 0.24.2
+archive exists, and its published SHA-256 matches the value recorded on 2026-11-15.
+
+Repair:
+
+- `.github/workflows/ci.yml` and `template/.ai-docs/examples/github-actions.md` now
+  install `lychee-x86_64-unknown-linux-gnu.tar.gz` from the `lychee-v0.24.2` release,
+  verify SHA-256 `1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a`
+  with `sha256sum --check --strict`, extract into `$RUNNER_TEMP`, and install only the
+  binary. Version, archive name, and checksum stay pinned. No fallback,
+  pipe-to-shell, package manager, or reusable downloader was added.
+- `tests/test_lychee_install.py` (A03) executes both workflow step texts in disposable
+  directories against the real release asset, asserts `lychee 0.24.2`, and rejects a
+  tampered archive. `tests/test_maintainer_ci.py` and `tests/test_consumer_ci.py`
+  assert the new contract and that both workflows pin identical installation values.
+- `TASKS.md` introduction corrected. `AGENTS.md` environment-specific paths replaced
+  with a portable private-data/external-action rule. Maintainer setup, validation,
+  testing, release checklist, README, CHANGELOG, handoff, and the research record
+  were synchronized.
+- `tests/scenarios/independent-review-packet.md` records reproducible inputs and
+  expected outcomes. Both 2026-11-15 walkthroughs now state that they are
+  implementation-agent records, not independent verification.
+
+Exact checks and results:
+
+| Check | Result |
+| --- | --- |
+| `python -m unittest discover -s tests -v` | 56 tests OK in 142.0 s (final rerun on the delivered tree; 50 previous + 4 A03 + 2 scenario-record checks) |
+| `pre-commit run --all-files` | all five hooks passed; no files rewritten |
+| `git diff --check` | exit 0 |
+| Re-downloaded `lychee-v0.24.2` archive + `sha256sum` | `1f4e0ef7…c9a`, matches the pin |
+| A03 maintainer/consumer install steps | both install and report `lychee 0.24.2`; tampered checksum fails before installation |
+| E01 evidence | refs v0.1.0→v0.1.1; 38 files; foreign/user hashes preserved; tool versions recorded in test output |
+| I01–I06, C01–C03, U01–U05, V01–V08, S01–S03, B01, A01–A03 | passed within the 56-test run |
+
+Verification status:
+
+- **Verified locally:** all commands above, on Ubuntu Linux with the pinned toolchain.
+- **Verified in hosted CI:** none for this repair. The last hosted run failed as
+  described; no push was authorized in this session. Status:
+  `HOSTED CI VERIFICATION PENDING`.
+- **Verified by independent reviewer:** none. The 2026-11-15 walkthroughs were
+  produced by the implementation agent. Status: `PENDING INDEPENDENT REVIEW`.
+- **Not verified:** macOS, Windows, a hosted run of the corrected workflow,
+  independent semantic quality, and remote URL reachability (out of scope).
+
+Changed paths: `.github/workflows/ci.yml`, `AGENTS.md`, `CHANGELOG.md`,
+`IMPLEMENTATION_HANDOFF.md`, `README.md`, `TASKS.md`,
+`docs/architecture/testing.md`, `docs/architecture/validation.md`,
+`docs/maintainer-setup.md`, `docs/release-checklist.md`, `docs/research/tooling.md`,
+`template/.ai-docs/examples/github-actions.md`,
+`tests/scenarios/independent-review-packet.md`,
+`tests/scenarios/walkthrough-non-software.md`, `tests/scenarios/walkthrough-software.md`,
+`tests/support.py`, `tests/test_consumer_ci.py`, `tests/test_lychee_install.py`,
+`tests/test_maintainer_ci.py`, `tests/test_scenarios.py`.
+
+Remaining limitations: hosted CI and independent semantic review are pending; the
+remaining v0.1.0 limitations (Linux-only testing, immutable `docs_dir`,
+non-transactional installation, unverified sibling compatibility) are unchanged.
+Next ready task: none in the MVP. F01–F05 remain deferred by the approved plan.
 
 If a test could not run, retain that fact and leave its task incomplete. A scope
 change requires an ADR/spec/task update; a session log alone cannot change architecture.

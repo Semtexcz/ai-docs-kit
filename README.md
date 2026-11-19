@@ -7,6 +7,9 @@ guide reasoning; existing CLIs validate syntax and local links.
 **Status: v0.1.0 implementation complete and tested on Ubuntu Linux (2026-11-15).**
 No hosted release, registry package, or public URL is required: install from a local Git
 clone or any Git URL of this repository. macOS and Windows are unverified for v0.1.
+Hosted CI verification of the repaired Lychee installation and independent semantic
+review remain pending as of 2026-11-19; see
+[the release checklist](docs/release-checklist.md).
 
 ## What it provides
 
@@ -31,7 +34,9 @@ reachability, not factual correctness.
 ## Requirements
 
 - Git and Copier 9.19.1 to install and update.
-- pre-commit 4.7.0, Node.js 24, and a Lychee 0.24.2 binary on `PATH` to validate.
+- pre-commit 4.7.0, Node.js 24, and a Lychee 0.24.2 binary on `PATH` to validate. CI and
+  the example workflow install the pinned Lychee release archive and verify its SHA-256
+  checksum before use.
 - Python 3.12 only for this repository's maintainer tests; consumers need no Python
   application, Node project, or package manifest.
 
