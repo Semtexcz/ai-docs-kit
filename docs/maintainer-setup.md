@@ -86,6 +86,14 @@ check, so a cold or offline run fails visibly instead of skipping that verificat
 The second uses the root maintainer configuration and never treats raw Jinja under
 `template/` or intentional negative fixtures as ordinary Markdown.
 
+Both commands passed in hosted CI for revision
+`f5c90492aa22592d430c4960a8e42b7fee44cf22`
+([run 44503559840](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44503559840)):
+`Ran 56 tests in 96.856s` followed by `OK`, the maintainer hooks passed, and
+`git diff --exit-code` was clean. The earlier review revision `b8aded9` passed in
+[run 44498410442](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44498410442).
+These results do not verify later working-tree changes.
+
 ## Provisioned GitHub Actions references
 
 Maintainer CI and the inert consumer example pin full commit SHAs for their actions:

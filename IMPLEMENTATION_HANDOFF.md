@@ -1,5 +1,12 @@
 # DeepSeek implementation handoff
 
+> Historical record. This document preserves the original implementation instruction and
+> its planning assumptions. Current status and verification evidence live in
+> [TASKS.md](TASKS.md), [CHANGELOG.md](CHANGELOG.md), the
+> [release checklist](docs/release-checklist.md), and the
+> [documentation audit](docs/audits/v0.1.0-documentation-audit.md). Statements below about
+> what remained unexecuted describe the planning point, not the delivered state.
+
 ## Mission and current state
 
 Implement ai-docs-kit: an independently installable, reusable, Git-native,

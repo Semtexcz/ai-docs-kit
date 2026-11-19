@@ -8,6 +8,11 @@ fixture, records the evidence, and states pass or fail against this rubric.
 No AI API key, model call, or snapshot comparison is part of CI. A failed walkthrough is
 corrected in the skill or asset and re-run; the new result is recorded.
 
+An independent semantic acceptance review was completed on 2026-11-19 against
+`b8aded9`; see [the review record](independent-review-v0.1.0.md). It is separate from the
+2026-11-15 implementation-agent walkthroughs and from the F1 correction and verification
+performed afterward.
+
 ## Fixtures
 
 | Fixture | Purpose |

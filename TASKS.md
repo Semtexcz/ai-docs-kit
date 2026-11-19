@@ -462,5 +462,71 @@ remaining v0.1.0 limitations (Linux-only testing, immutable `docs_dir`,
 non-transactional installation, unverified sibling compatibility) are unchanged.
 Next ready task: none in the MVP. F01–F05 remain deferred by the approved plan.
 
+### 2026-11-19 — Documentation audit, F1 repair, and release evidence
+
+- Implementer: DeepSeek V4.1 Flash (high reasoning effort), OpenCode harness.
+- Baseline: `f5c90492aa22592d430c4960a8e42b7fee44cf22`, clean tree. Independent review
+  revision: `b8aded9f80613c79c8a988c7f4161e5627828e49`. Hosted CI for the baseline:
+  [run 44503559840](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44503559840),
+  success. The final working tree is derived from the baseline and is not committed or
+  pushed.
+- Scope: audit the toolkit against its own documentation standards; correct the
+  independent review's F1 write-output finding; synchronize release evidence and
+  navigation. No architecture, ownership, MVP scope, or dependency change.
+- F1 correction: `template/.ai-docs/skills/docs-write/SKILL.md.jinja` now emits the
+  review-record sections (inspected sources, deterministic checks, semantic findings,
+  uncertainties and open questions, explicit disposition), requires `ready` only when
+  required checks pass, and records source-inspected command behavior as `inference`
+  with `not verified` in the Action. `docs/architecture/skills.md` states the same
+  output contract.
+- Release evidence: README, CHANGELOG, release checklist, maintainer setup, review
+  packet, and scenario index now cite run `44503559840` for `f5c9049`, the Codex review
+  for `b8aded9` (`PASS WITH CONDITIONS`, serving profile not attested), and the separate
+  F1 correction. The review packet retains its historical PENDING row.
+- Documentation corrections: stale "future command" and "planning phase" wording;
+  historical notes for the implementation handoff and research record; linked
+  architecture, ADR, specification, task, and audit entry points in the README.
+- New evidence records: `docs/audits/v0.1.0-documentation-audit.md` and
+  `tests/scenarios/walkthrough-write-f1.md` (implementation-agent walkthrough, not
+  independent review).
+
+Exact checks and results on the final working tree:
+
+| Check | Result |
+| --- | --- |
+| `python -m unittest discover -s tests -p 'test_skills.py' -v` | 4 tests OK, including new S04 rendered write-contract checks |
+| `python -m unittest discover -s tests -p 'test_scenarios.py' -v` | 6 tests OK |
+| `python -m unittest discover -s tests -v` | 57 tests OK in 142.215 s |
+| Bounded software write walkthrough, standalone consumer command | exit 0; Markdownlint and offline Lychee passed |
+| `pre-commit run --all-files` | all five hooks passed; no files rewritten |
+| `git diff --check` | exit 0 |
+
+Verification status:
+
+- **Verified locally:** all commands above on Ubuntu Linux with the pinned toolchain.
+- **Verified in hosted CI:** run `44503559840` is evidence for baseline `f5c9049` only.
+  Final working-tree revision: `FINAL REVISION HOSTED CI PENDING`.
+- **Independent semantic review:** completed for `b8aded9` by Codex, `PASS WITH
+  CONDITIONS`, 8/8 scenarios, one minor F1. The serving model and reasoning profile were
+  not attested. The F1 correction has rendered-skill tests and an implementation-agent
+  walkthrough, not a second independent review.
+- **Not verified:** hosted CI for the final revision, independent re-review of the F1
+  correction, macOS, Windows, remote URL reachability, deployed consumer behavior, and
+  specific sibling-toolkit releases.
+
+Changed paths: `README.md`, `CHANGELOG.md`, `TASKS.md`, `IMPLEMENTATION_HANDOFF.md`,
+`docs/architecture/skills.md`, `docs/architecture/testing.md`,
+`docs/architecture/validation.md`, `docs/maintainer-setup.md`,
+`docs/release-checklist.md`, `docs/research/tooling.md`,
+`docs/audits/v0.1.0-documentation-audit.md`,
+`template/.ai-docs/skills/docs-write/SKILL.md.jinja`,
+`tests/test_skills.py`, `tests/scenarios/README.md`,
+`tests/scenarios/independent-review-packet.md`,
+`tests/scenarios/walkthrough-write-f1.md`.
+
+Remaining limitations: final-revision hosted CI and independent re-review are pending;
+the v0.1.0 platform, lifecycle, and sibling-compatibility limits are unchanged.
+Next ready task: none in the MVP. F01–F05 remain deferred by the approved plan.
+
 If a test could not run, retain that fact and leave its task incomplete. A scope
 change requires an ADR/spec/task update; a session log alone cannot change architecture.

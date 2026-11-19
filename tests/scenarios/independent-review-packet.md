@@ -5,8 +5,11 @@ review of the three shipped Agent Skills. It exists because the 2026-11-15 walkt
 records were produced by the implementation agent (Cline/DeepSeek) and are therefore
 implementation evidence, not independent verification.
 
-- Independent review status: **PENDING INDEPENDENT REVIEW** (as of 2026-11-19)
-- Target reviewer: GPT-6.1-Sol, or another reviewer independent of the implementation
+- Independent review status: **COMPLETED** (2026-11-19); see the
+  [independent review record](independent-review-v0.1.0.md)
+- Reviewer requirement: an agent or human independent of the implementation agent. No
+  specific model identity is required; the completed review used Codex and could not
+  attest the requested GPT-6.1-Sol HIGH profile
 - No AI API key, hosted model call, or network service is part of the automated suite
 - A review is evidence only when it is actually performed and recorded; do not copy
   results from `walkthrough-software.md` or `walkthrough-non-software.md`
@@ -125,3 +128,4 @@ green Markdown/link checks or successful format validation as semantic approval.
 | --- | --- | --- |
 | 2026-11-15 | Implementation-agent walkthroughs recorded | `walkthrough-software.md`, `walkthrough-non-software.md`; not independent |
 | 2026-11-19 | PENDING INDEPENDENT REVIEW | This packet; no independent reviewer available in the corrective session |
+| 2026-11-19 | COMPLETED — PASS WITH CONDITIONS | [Independent review](independent-review-v0.1.0.md) for `b8aded9`; Codex, serving profile not attested; one minor finding F1 |

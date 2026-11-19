@@ -7,7 +7,8 @@ No pytest, template-test framework, custom renderer, custom linter, or network A
 service is needed. Real Copier, pre-commit, markdownlint-cli2, and Lychee run in
 tests. The upstream skill reference validator is a development-only dependency.
 
-Future command: `python -m unittest discover -s tests -v`.
+The maintainer command is `python -m unittest discover -s tests -v`; it executes the
+real CLIs and fails, rather than skipping, when a required tool is unavailable.
 Create a minimal helper in `tests/support.py` for temporary Git repositories,
 subprocess execution with argument arrays/timeouts, inventory hashes, and committing
 fixture revisions. Use only local test Git identity; never change global config.

@@ -74,9 +74,12 @@ outcomes, and verification limits. Reuse canonical pages by linking. Update rout
 entries if a page is created or its purpose changes. Run scoped deterministic
 checks through the standalone configuration; produce an evidence review record.
 
-**Outputs:** Markdown edits and relevant index update; concise change explanation;
-claim/evidence table; validation results; unresolved questions. A requested draft
-can remain incomplete, but is not reported ready with unsupported material claims.
+**Outputs:** Markdown edits and relevant index update; change scope and target revision;
+inspected sources; claim/evidence table; deterministic check results; semantic findings;
+uncertainties and open questions; explicit disposition. A requested draft can remain
+incomplete, but is not reported ready with unsupported material claims. Source-inspected
+command behavior without execution or a corroborating test is an inference or not
+verified, not a supported execution result.
 
 **Failure handling:** evidence absent/conflicting → qualify, omit, or flag the claim;
 missing tools → report not run; unsafe example → describe without executing.

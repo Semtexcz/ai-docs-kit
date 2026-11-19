@@ -14,15 +14,24 @@ tag-per-release Copier workflow; consumers select an explicit tag.
   and the checksum stay pinned; no fallback or pipe-to-shell installation is used.
 - The consumer example continued to propagate the broken installer and is corrected with
   the same verified mechanism.
+- F1 from the independent review: the `docs-write` output record now matches the review
+  contract in `docs/architecture/documentation.md`, `policy.md`, and `review.md`. It
+  includes inspected sources, deterministic check results, semantic findings,
+  uncertainties, and an explicit `ready`, `changes required`, or `incomplete`
+  disposition. Source-inspected command behavior is recorded as `inference` with
+  `not verified` in the Action, not as supported execution evidence.
 
 ### Added
 
 - `tests/test_lychee_install.py` executes both workflow install steps in disposable
   directories, checks the reported version, and rejects a tampered archive (A03).
 - `tests/scenarios/independent-review-packet.md` provides reproducible inputs and
-  expected outcomes for independent semantic review. Status remains
-  `PENDING INDEPENDENT REVIEW`; the 2026-11-15 walkthroughs are implementation-agent
-  records, not independent verification.
+  expected outcomes for independent semantic review; the completed review is recorded
+  separately.
+- `tests/test_skills.py` checks the rendered write-skill output sections, dispositions,
+  and inference/execution distinction for default and custom documentation roots.
+- `docs/audits/v0.1.0-documentation-audit.md` records the documentation audit,
+  remediation matrix, and remaining verification limits.
 
 ### Documentation
 
@@ -32,6 +41,10 @@ tag-per-release Copier workflow; consumers select an explicit tag.
   private data and external actions.
 - Toolchain, validation, testing, release-checklist, README, and handoff documents
   describe the corrected installation method and the remaining verification limits.
+- Release status now cites hosted CI run `44503559840` for baseline `f5c9049` and the
+  independent Codex review for `b8aded9` (`PASS WITH CONDITIONS`, serving profile not
+  attested). The review is no longer described as pending, and the modified final
+  revision is explicitly distinguished from both baselines.
 
 ## v0.1.0 — 2026-11-15
 

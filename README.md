@@ -5,11 +5,17 @@ Markdown is canonical; Copier installs and updates the toolkit; portable Agent S
 guide reasoning; existing CLIs validate syntax and local links.
 
 **Status: v0.1.0 implementation complete and tested on Ubuntu Linux (2026-11-15).**
-No hosted release, registry package, or public URL is required: install from a local Git
-clone or any Git URL of this repository. macOS and Windows are unverified for v0.1.
-Hosted CI verification of the repaired Lychee installation and independent semantic
-review remain pending as of 2026-11-19; see
-[the release checklist](docs/release-checklist.md).
+No release tag or GitHub release has been published; no hosted release, registry package,
+or public URL is required. Install from a local Git clone or any Git URL of this
+repository. macOS and Windows are unverified for v0.1. Hosted CI passed for baseline
+`f5c90492aa22592d430c4960a8e42b7fee44cf22` ([run 44503559840](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44503559840)).
+An independent semantic acceptance review returned **PASS WITH CONDITIONS** for
+`b8aded9f80613c79c8a988c7f4161e5627828e49` ([review](tests/scenarios/independent-review-v0.1.0.md));
+its serving model and reasoning profile were not attested. Its one minor finding (F1,
+the write output contract) is corrected with regression coverage. The final modified
+revision has not been hosted or independently re-reviewed; see the
+[release checklist](docs/release-checklist.md) and
+[documentation audit](docs/audits/v0.1.0-documentation-audit.md).
 
 ## What it provides
 
@@ -109,11 +115,12 @@ profiles are deferred.
 | --- | --- |
 | `copier.yml`, `template/` | Installable template; only `template/` renders |
 | `tests/` | Real-CLI integration tests, fixtures, and semantic scenario records |
-| `docs/architecture/`, `docs/adr/` | Contracts and accepted decisions |
-| `docs/installation.md`, `docs/maintainer-setup.md` | User installation guide and pinned toolchain record |
-| `openspec/specs/` | Behavioral specifications R01–R20 |
-| `TASKS.md` | Implementation ledger and session evidence |
-| `CHARTER.md`, `PLAN.md` | Scope and release plan |
+| [`docs/architecture/`](docs/architecture/README.md), [`docs/adr/`](docs/adr/README.md) | Contracts and accepted decisions |
+| [`docs/installation.md`](docs/installation.md), [`docs/maintainer-setup.md`](docs/maintainer-setup.md) | User installation guide and pinned toolchain record |
+| [`openspec/specs/`](openspec/README.md) | Behavioral specifications R01–R20 |
+| [`TASKS.md`](TASKS.md) | Implementation ledger and session evidence |
+| [`CHARTER.md`](CHARTER.md), [`PLAN.md`](PLAN.md) | Scope and release plan |
+| [`docs/audits/`](docs/audits/v0.1.0-documentation-audit.md) | Documentation audit and remediation record |
 
 ## Develop this repository
 

@@ -61,13 +61,20 @@ Bound these before writing; ask only when a missing input blocks the scoped work
 
 ## Output
 
-Markdown edits plus a concise record in the conversation:
+Markdown edits plus a concise record in the conversation. Use the same sections as the
+[review asset](../../assets/review.md), adapted for a write:
 
 ```markdown
 ## Change summary
 
-- Scope: <pages and audience>
-- Revision: <commit or working tree>
+- Scope: <pages, audience, and authorized write boundary>
+- Target revision: <commit or working tree>
+
+## Inspected sources
+
+| Source | Revision | Evidence kind |
+| --- | --- | --- |
+| ... | ... | implementation/config/test/record/spec |
 
 ## Claim/evidence table
 
@@ -75,16 +82,33 @@ Markdown edits plus a concise record in the conversation:
 | --- | --- | --- | --- | --- |
 | ... | path/link | current behavior, planned, inference | supported/planned/inference/unsupported/conflicting | ... |
 
-## Checks
+## Deterministic checks
 
 | Command | Result |
 | --- | --- |
 | pre-commit run --config .ai-docs/pre-commit-config.yaml --all-files | pass/fail/not run (reason) |
 
-## Open questions
+## Semantic findings
+
+| Severity | Location | Finding | Required change |
+| --- | --- | --- | --- |
+| blocker/major/minor or none | ... | ... | ... |
+
+## Uncertainties and open questions
 
 - ...
+
+## Disposition
+
+ready | changes required | incomplete
 ```
+
+A command, flag, or output derived only from reading source or configuration is
+`inference`, with `not verified` stated in the Action; it is not `supported` or executed
+until a relevant test or recorded execution corroborates it. Report the check command,
+result, and any tool that was unavailable. Use `ready` only when every material claim is
+supported or explicitly labelled planned/inference and every required check passed; a
+missing required check or an unresolved blocker cannot be `ready`.
 
 Write a report file only when an output path was explicitly requested.
 

@@ -1,9 +1,11 @@
 # Tool research and selection
 
 Verified against primary sources on **2026-11-15**. Web documentation and source
-inspection establish design compatibility; they do not establish that the proposed
-combined toolchain has run. T01 records exact executable/commit pins and T14–T21
-establish runtime compatibility. No dependencies were installed during planning.
+inspection establish design compatibility at that point; the tables below preserve the
+planning view, including what still needed execution evidence then. The combined
+toolchain was subsequently exercised on Ubuntu Linux; see [maintainer setup](../maintainer-setup.md),
+[TASKS.md](../../TASKS.md), and the [release checklist](../release-checklist.md). No
+dependencies were installed during the initial planning pass.
 
 ## Findings and decisions
 

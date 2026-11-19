@@ -7,11 +7,13 @@ Node.js for markdownlint-cli2, and an explicit Lychee binary. No consumer
 `package.json`, `pyproject.toml`, Python application, Rust toolchain, Docker,
 AI API, or global Git-hook installation is required.
 
-The initial tested versions are Copier 9.19.1, pre-commit 4.7.0,
-markdownlint-cli2 0.24.1, and Lychee 0.24.2. Use Python 3.12 and Node.js 24
-as supported runtime families; T01 resolves and records patch versions and
-immutable references. These are a selected baseline, not a claim of execution
-verification in this planning phase. See [research](../research/tooling.md).
+The tested versions are Copier 9.19.1, pre-commit 4.7.0, markdownlint-cli2 0.24.1,
+and Lychee 0.24.2. Python 3.12 and Node.js 24 are the supported runtime families; the
+exact patch versions and immutable references are recorded in
+[maintainer setup](../maintainer-setup.md). They were exercised together on Ubuntu Linux
+locally on 2026-11-15 and in hosted CI on 2026-11-19 (run `44503559840`, revision
+`f5c90492aa22592d430c4960a8e42b7fee44cf22`); other platforms remain unverified. See
+[research](../research/tooling.md) and the [release checklist](../release-checklist.md).
 
 ## Default scope and command
 
