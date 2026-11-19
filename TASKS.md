@@ -464,6 +464,12 @@ Next ready task: none in the MVP. F01–F05 remain deferred by the approved plan
 
 ### 2026-11-19 — Documentation audit, F1 repair, and release evidence
 
+> Closure update: the working tree described below was later committed as
+> `3a158cde2e3359f698ac66a7ce9c86ac621b81c5` and passed hosted CI in run
+> `44508800002`. The audit-time statements in this entry are preserved as historical
+> evidence; see the release-evidence closure entry at the end of this log for current
+> status.
+
 - Implementer: DeepSeek V4.1 Flash (high reasoning effort), OpenCode harness.
 - Baseline: `f5c90492aa22592d430c4960a8e42b7fee44cf22`, clean tree. Independent review
   revision: `b8aded9f80613c79c8a988c7f4161e5627828e49`. Hosted CI for the baseline:
@@ -505,7 +511,8 @@ Verification status:
 
 - **Verified locally:** all commands above on Ubuntu Linux with the pinned toolchain.
 - **Verified in hosted CI:** run `44503559840` is evidence for baseline `f5c9049` only.
-  Final working-tree revision: `FINAL REVISION HOSTED CI PENDING`.
+  Final working-tree revision at audit time: `FINAL REVISION HOSTED CI PENDING`
+  (superseded by the closure entry below).
 - **Independent semantic review:** completed for `b8aded9` by Codex, `PASS WITH
   CONDITIONS`, 8/8 scenarios, one minor F1. The serving model and reasoning profile were
   not attested. The F1 correction has rendered-skill tests and an implementation-agent
@@ -524,8 +531,72 @@ Changed paths: `README.md`, `CHANGELOG.md`, `TASKS.md`, `IMPLEMENTATION_HANDOFF.
 `tests/scenarios/independent-review-packet.md`,
 `tests/scenarios/walkthrough-write-f1.md`.
 
-Remaining limitations: final-revision hosted CI and independent re-review are pending;
-the v0.1.0 platform, lifecycle, and sibling-compatibility limits are unchanged.
+At audit time, final-revision hosted CI and independent re-review were pending; the
+v0.1.0 platform, lifecycle, and sibling-compatibility limits were unchanged.
+Next ready task: none in the MVP. F01–F05 remain deferred by the approved plan.
+
+### 2026-11-19 — Release evidence closure for `3a158cd`
+
+- Implementer: DeepSeek V4.1 Flash (high reasoning effort), OpenCode harness.
+- Revisions: documentation-audit baseline `f5c90492aa22592d430c4960a8e42b7fee44cf22`;
+  independent review revision `b8aded9f80613c79c8a988c7f4161e5627828e49`; correction
+  commit `3a158cde2e3359f698ac66a7ce9c86ac621b81c5`, which contains the F1 fix and
+  the audit remediations. Working tree clean at the start and end of this pass.
+- Hosted verification: [run 44508800002](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44508800002)
+  for `3a158cd` was inspected through the GitHub API and job log. GitHub reported
+  `conclusion: success`; the log records `Ran 57 tests in 71.494s` followed by `OK`,
+  all five maintainer documentation hooks passed, and `git diff --exit-code` was
+  clean. E01 recorded refs `v0.1.0` → `v0.1.1` and preserved foreign/user hashes.
+- Scenario inventory: S04 is now registered in `docs/architecture/testing.md` and the
+  `tests/test_skills.py` module docstring. It verifies that the rendered `docs-write`
+  skill includes every required review-record section, explicit dispositions, the
+  inference-versus-verified-execution distinction, preserved security and write-scope
+  boundaries, and works with default and custom documentation roots. S01–S03
+  definitions are unchanged.
+- Release evidence: README, CHANGELOG, release checklist, maintainer setup, validation
+  architecture, and the audit closure now cite `3a158cd` and run `44508800002`.
+  `docs/release-checklist.md` separates release readiness for `3a158cd` from
+  publication, keeps the optional independent F1 re-review open, and keeps the tag and
+  GitHub release unauthorized.
+- Historical evidence retained: the independent review remains `PASS WITH CONDITIONS`
+  for `b8aded9`, the documentation audit remains scoped to `f5c9049`, and the
+  audit-time pending statements are preserved with dated closure annotations. The
+  independent reviewer did not evaluate the later F1 correction.
+- No product behavior, Copier template rendering behavior, architecture contract,
+  specification, ADR, dependency, or supported scope changed.
+
+Exact checks and results on the closure working tree:
+
+| Check | Result |
+| --- | --- |
+| `python -m unittest discover -s tests -v` | exit 0; `Ran 57 tests in 165.380s`; `OK`; E01 inventory 38 files with preserved hashes |
+| `pre-commit run --all-files` | exit 0; all five hooks passed; no files rewritten |
+| `git diff --check` | exit 0; no whitespace errors |
+| Hosted run `44508800002` for `3a158cd` | `conclusion: success`; 57 tests in 71.494 s; five hooks passed; `git diff --exit-code` clean |
+
+Changed paths: `CHANGELOG.md`, `README.md`, `TASKS.md`,
+`docs/architecture/testing.md`, `docs/architecture/validation.md`,
+`docs/audits/v0.1.0-documentation-audit.md`, `docs/maintainer-setup.md`,
+`docs/release-checklist.md`, `tests/test_skills.py`.
+
+Verification status:
+
+- **Verified locally:** all checks above on Ubuntu Linux with Python 3.12.16,
+  Node 24.22.3, Copier 9.19.1, pre-commit 4.7.0, markdownlint-cli2 0.24.1,
+  Lychee 0.24.2, skills-ref 0.1.0, and Git 2.53.0.
+- **Verified in hosted CI:** `3a158cd` in run `44508800002`. This does not verify the
+  later uncommitted documentation-closure tree; a new commit needs its own run.
+- **Independent semantic review:** completed for `b8aded9`, `PASS WITH CONDITIONS`.
+  No independent re-review of the F1 correction was performed; it remains an optional
+  advisory item.
+- **Not verified:** macOS, Windows, remote URL reachability, deployed consumer
+  behavior, and specific sibling-toolkit releases.
+- **Publication:** no v0.1.0 tag or GitHub release exists; publication remains
+  unauthorized.
+
+Remaining limitations: the optional independent F1 re-review and hosted verification of
+any new closure commit are open; the v0.1.0 platform, lifecycle, and
+sibling-compatibility limits are unchanged.
 Next ready task: none in the MVP. F01–F05 remain deferred by the approved plan.
 
 If a test could not run, retain that fact and leave its task incomplete. A scope

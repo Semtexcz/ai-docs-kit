@@ -54,6 +54,7 @@ install the tool.
 | S01 | All three rendered skills pass upstream format validation; catalog and resource links resolve; no vendor runtime requirement | T18 |
 | S02 | A deliberately malformed skill copy fails the upstream validator; not the valid source package | T18 |
 | S03 | Entry/index/catalog budgets and exact package inventory are checked on default/custom renders | T18 |
+| S04 | Rendered `docs-write` skill exposes the review-record contract: all required sections, explicit dispositions, inference distinguished from verified execution, security and write-scope boundaries preserved, on default and custom documentation roots | T18 |
 | B01 | No sibling toolkit or OpenSpec runtime is installed/required; existing OpenSpec and sibling sentinels remain unchanged | T19 |
 | A01 | Maintainer workflow performs actual unittest integration checks and doc validation with pinned tools | T20 |
 | A02 | Consumer workflow stays inert after rendering; extracted example runs same command on fixture when activated in test | T13 |

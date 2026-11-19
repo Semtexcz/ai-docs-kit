@@ -1,4 +1,4 @@
-"""Portable skill package scenarios S01-S03 (T18)."""
+"""Portable skill package scenarios S01-S04 (T18)."""
 
 from __future__ import annotations
 

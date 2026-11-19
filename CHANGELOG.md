@@ -41,10 +41,20 @@ tag-per-release Copier workflow; consumers select an explicit tag.
   private data and external actions.
 - Toolchain, validation, testing, release-checklist, README, and handoff documents
   describe the corrected installation method and the remaining verification limits.
-- Release status now cites hosted CI run `44503559840` for baseline `f5c9049` and the
-  independent Codex review for `b8aded9` (`PASS WITH CONDITIONS`, serving profile not
-  attested). The review is no longer described as pending, and the modified final
-  revision is explicitly distinguished from both baselines.
+- Release status cites hosted CI run `44508800002` for the corrective commit `3a158cd`
+  and run `44503559840` for baseline `f5c9049`, plus the independent Codex review for
+  `b8aded9` (`PASS WITH CONDITIONS`, serving profile not attested). The review is not
+  described as pending, and the correction commit is explicitly distinguished from the
+  review baseline.
+
+### Verification
+
+- Hosted CI run `44508800002` for commit
+  `3a158cde2e3359f698ac66a7ce9c86ac621b81c5` completed successfully: `Ran 57 tests`,
+  all five maintainer documentation gates passed, and `git diff --exit-code` was clean.
+  This verifies the corrective commit, not a later documentation-only revision.
+- The independent semantic review remains scoped to `b8aded9`; it did not evaluate the
+  F1 correction. No independent re-review of `3a158cd` was performed.
 
 ## v0.1.0 — 2026-11-15
 

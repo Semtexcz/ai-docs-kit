@@ -7,13 +7,19 @@ guide reasoning; existing CLIs validate syntax and local links.
 **Status: v0.1.0 implementation complete and tested on Ubuntu Linux (2026-11-15).**
 No release tag or GitHub release has been published; no hosted release, registry package,
 or public URL is required. Install from a local Git clone or any Git URL of this
-repository. macOS and Windows are unverified for v0.1. Hosted CI passed for baseline
-`f5c90492aa22592d430c4960a8e42b7fee44cf22` ([run 44503559840](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44503559840)).
+repository. macOS and Windows are unverified for v0.1. Hosted CI passed for
+`3a158cde2e3359f698ac66a7ce9c86ac621b81c5`
+([run 44508800002](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44508800002)):
+57 integration tests and all five maintainer documentation gates passed, and the
+working tree was not rewritten. The earlier baseline
+`f5c90492aa22592d430c4960a8e42b7fee44cf22` passed in
+[run 44503559840](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44503559840).
 An independent semantic acceptance review returned **PASS WITH CONDITIONS** for
 `b8aded9f80613c79c8a988c7f4161e5627828e49` ([review](tests/scenarios/independent-review-v0.1.0.md));
 its serving model and reasoning profile were not attested. Its one minor finding (F1,
-the write output contract) is corrected with regression coverage. The final modified
-revision has not been hosted or independently re-reviewed; see the
+the write output contract) is corrected in `3a158cd` with regression coverage. The
+independent reviewer evaluated `b8aded9` and did not review the later F1 correction;
+that re-review remains optional. See the
 [release checklist](docs/release-checklist.md) and
 [documentation audit](docs/audits/v0.1.0-documentation-audit.md).
 

@@ -11,9 +11,11 @@ The tested versions are Copier 9.19.1, pre-commit 4.7.0, markdownlint-cli2 0.24.
 and Lychee 0.24.2. Python 3.12 and Node.js 24 are the supported runtime families; the
 exact patch versions and immutable references are recorded in
 [maintainer setup](../maintainer-setup.md). They were exercised together on Ubuntu Linux
-locally on 2026-11-15 and in hosted CI on 2026-11-19 (run `44503559840`, revision
-`f5c90492aa22592d430c4960a8e42b7fee44cf22`); other platforms remain unverified. See
-[research](../research/tooling.md) and the [release checklist](../release-checklist.md).
+locally on 2026-11-15 and in hosted CI on 2026-11-19 for baseline `f5c9049`
+(run `44503559840`) and correction commit
+`3a158cde2e3359f698ac66a7ce9c86ac621b81c5` (run `44508800002`); other platforms remain
+unverified. See [research](../research/tooling.md) and the
+[release checklist](../release-checklist.md).
 
 ## Default scope and command
 

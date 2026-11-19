@@ -1,25 +1,30 @@
 # Release checklist
 
-Maintainer checklist for a v0.1.0 release. Publication (push, tag, hosted release) needs
-separate explicit authorization; completing this checklist does not publish anything.
+Maintainer checklist for a v0.1.0 release. **Release readiness** and **release
+publication** are distinct: this checklist records readiness evidence. Publication
+(pushing new commits, creating a tag, or publishing a GitHub release) needs separate
+explicit authorization; completing this checklist does not publish anything.
 
-- Baseline review revision: `f5c90492aa22592d430c4960a8e42b7fee44cf22`, clean tree.
+- Documentation-audit baseline: `f5c90492aa22592d430c4960a8e42b7fee44cf22`, clean tree.
 - Independent semantic review revision: `b8aded9f80613c79c8a988c7f4161e5627828e49`.
-- Current evidence: [hosted run 44503559840](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44503559840),
-  [independent review](../tests/scenarios/independent-review-v0.1.0.md), and the
-  [documentation audit](audits/v0.1.0-documentation-audit.md).
-- The final modified revision is a working tree derived from the baseline. Checks below
-  distinguish baseline evidence from final-revision evidence; a baseline result is not
-  evidence for later changes.
+- Correction commit: `3a158cde2e3359f698ac66a7ce9c86ac621b81c5`, containing the
+  documentation audit corrections and the F1 write-output fix.
+- Current evidence: [hosted run 44508800002](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44508800002)
+  for `3a158cd`, [baseline run 44503559840](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44503559840)
+  for `f5c9049`, [independent review](../tests/scenarios/independent-review-v0.1.0.md),
+  and the [documentation audit](audits/v0.1.0-documentation-audit.md).
+- Each hosted result verifies only its recorded revision. The independent reviewer
+  evaluated `b8aded9`, not the later F1 correction.
+- No v0.1.0 tag or GitHub release exists.
 
 ## 1. Environment
 
 - [x] Pinned tools provisioned from [maintainer setup](maintainer-setup.md) and versions
       recorded in the ledger (2026-11-15 session in [TASKS.md](../TASKS.md)).
-- [x] Repository was at the intended baseline revision with a clean working tree before
-      the documentation audit.
+- [x] Repository was at the intended documentation-audit baseline revision with a clean
+      working tree before the audit.
 - [x] `git status` reviewed before and after the baseline checks.
-- [x] Final working-tree revision: rerun with Python 3.12.16, Node 24.22.3,
+- [x] Correction commit `3a158cd`: rerun with Python 3.12.16, Node 24.22.3,
       Copier 9.19.1, pre-commit 4.7.0, markdownlint-cli2 0.24.1, Lychee 0.24.2,
       skills-ref 0.1.0, and Git 2.53.0; `git status` recorded before and after.
 
@@ -36,21 +41,29 @@ separate explicit authorization; completing this checklist does not publish anyt
       checksum (A03) in the hosted run.
 - [x] Rendered output contained no maintainer files, raw Jinja, executables, hooks, or
       activated workflows; I01/I06/S03 passed within the hosted suite.
-- [x] Final working-tree rerun: `python -m unittest discover -s tests -v` exited 0 with
-      `Ran 57 tests in 142.215s` and `OK`; `pre-commit run --all-files` passed all five
-      hooks; `git diff --check` exited 0. Details are in [TASKS.md](../TASKS.md) and the
-      [audit](audits/v0.1.0-documentation-audit.md).
+- [x] Correction commit `3a158cd` passed hosted CI in
+      [run 44508800002](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44508800002):
+      `Ran 57 tests in 71.494s` followed by `OK`, all five maintainer documentation hooks
+      passed, and `git diff --exit-code` was clean. The job log records E01 with source
+      refs `v0.1.0` → `v0.1.1` and preserved foreign/user hashes.
+- [x] Local rerun on the closure working tree derived from `3a158cd`:
+      `python -m unittest discover -s tests -v` exited 0 with
+      `Ran 57 tests in 165.380s` and `OK`; `pre-commit run --all-files` passed all five
+      hooks; `git diff --check` exited 0. This working tree is uncommitted, so the
+      result is local evidence only. A new commit needs its own hosted run.
 
 ## 3. Scenario evidence
 
 - [x] I01–I06, C01–C03, U01–U05, V01–V08, S01–S03, B01, and A01–A03 passed within the
       56-test baseline run.
-- [x] E01 passed; the hosted log records source refs `v0.1.0` → `v0.1.1`, a 38-file
-      inventory, preserved foreign/user hashes, and the tool versions.
+- [x] S04 was added after that run and passed in the 57-test run for `3a158cd`. It checks
+      the rendered `docs-write` review-record contract on default and custom roots.
+- [x] E01 passed in both hosted runs; the logs record source refs `v0.1.0` → `v0.1.1`, a
+      38-file inventory, preserved foreign/user hashes, and the tool versions.
 - [x] Semantic walkthrough records exist for the software and non-software fixtures. The
       2026-11-15 records identify themselves as implementation-agent evidence.
 - [x] Independent semantic acceptance records M01–M08 with reviewer, revision, inputs,
-      outputs, and results (2026-11-19 review, 8/8 passed).
+      outputs, and results (2026-11-19 review, 8/8 passed for `b8aded9`).
 - [x] Green syntax checks are not presented as factual correctness in the README,
       architecture, policy, review asset, or audit.
 
@@ -79,12 +92,12 @@ separate explicit authorization; completing this checklist does not publish anyt
       not as independent verification.
 - [x] Result is recorded as `PASS WITH CONDITIONS` for `b8aded9`, with one nonblocking
       minor finding (F1, write output contract).
-- [x] F1 is corrected separately in `template/.ai-docs/skills/docs-write/SKILL.md.jinja`,
+- [x] F1 is corrected in `3a158cd` in `template/.ai-docs/skills/docs-write/SKILL.md.jinja`,
       with rendered-skill regression tests and a bounded implementation-agent
       walkthrough. This correction is not a second independent semantic review.
 - [ ] Advisory, not a v0.1.0 gate: independent semantic re-review of the F1 correction.
-      The baseline review and the F1 fix are separate evidence; the rendered-skill tests
-      and implementation-agent walkthrough verify the output shape, not independent
+      Not performed. The independent reviewer assessed `b8aded9` only; the rendered-skill
+      tests and implementation-agent walkthrough verify output shape, not independent
       semantic quality.
 
 ## 6. Release artifacts (not publication)
@@ -96,8 +109,10 @@ separate explicit authorization; completing this checklist does not publish anyt
       hosted release.
 - [x] Final disposable installation was inspected with a clean diff and passing checks in
       E01.
-- [ ] Release tag and GitHub release: not created. They require separate authorization
-      and a final-revision hosted run.
+- [ ] Release tag and GitHub release: not created. They require separate authorization;
+      hosted CI for `3a158cd` is complete, but this checklist does not publish anything.
+- [ ] Documentation-closure changes: not committed or pushed. Publication is
+      unauthorized. If committed, the new commit requires its own hosted run.
 
 ## 7. Hosted CI verification
 
@@ -107,15 +122,21 @@ separate explicit authorization; completing this checklist does not publish anyt
       passed, maintainer documentation gates passed, and `git diff --exit-code` was clean.
 - [x] The earlier review revision `b8aded9` also passed hosted CI in
       [run 44498410442](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44498410442).
-- [ ] Final modified revision: `FINAL REVISION HOSTED CI PENDING`. The changes are not
-      committed or pushed, so no hosted result can be claimed for them.
+- [x] Correction commit `3a158cd` passed hosted CI in
+      [run 44508800002](https://github.com/Semtexcz/ai-docs-kit/actions/runs/44508800002).
+      GitHub reported `conclusion: success`; every setup, test, documentation-gate, and
+      no-rewrite step succeeded. The log records 57 tests and all five passed hooks.
+- [ ] Documentation-closure working tree after `3a158cd`: not hosted. If it is committed,
+      that new commit requires its own successful run before being declared fully
+      verified. This is a publication-step requirement, not a defect in `3a158cd`.
 
 ## Sign-off
 
 - Independent semantic review: Codex, 2026-11-19, `b8aded9`, PASS WITH CONDITIONS;
-  serving profile not attested. One minor finding, F1, corrected afterward.
-- Documentation audit and F1 repair: implementation agent, 2026-11-19, working tree
-  derived from `f5c9049`; local gate results are recorded in
-  [TASKS.md](../TASKS.md) and the [audit](audits/v0.1.0-documentation-audit.md).
-- Maintainer release approval: **pending**. Requires the final-revision checks above and
-  explicit authorization to tag or publish.
+  serving profile not attested. F1 was corrected afterward in `3a158cd` and was not
+  independently re-reviewed.
+- Documentation audit and F1 repair: implementation agent, 2026-11-19; audit baseline
+  `f5c9049`; corrections committed as `3a158cd` and hosted-verified in run `44508800002`.
+- Release readiness: complete for `3a158cd`, with the optional independent re-review of
+  the F1 correction still open.
+- Maintainer release approval: **pending**. Publication requires explicit authorization.
